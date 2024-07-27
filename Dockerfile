@@ -13,25 +13,18 @@ WORKDIR /djangoapp
 
 EXPOSE 8000
 
-RUN python -m venv /.venv && \
-    /.venv/bin/pip install --upgrade pip && \
-    /.venv/bin/pip install -r /djangoapp/requirements.txt && \
-    adduser --disabled-password --no-create-home duser && \
-    mkdir -p /data/web/static && \
-    mkdir -p /data/web/media && \
-    chown -R duser:duser /.venv && \
-    chown -R duser:duser /djangoapp && \
-    chown -R duser:duser /data/web/static && \
-    chown -R duser:duser /data/web/media 
+RUN python -m venv /.venv
+RUN /.venv/bin/pip install --upgrade pip
+RUN /.venv/bin/pip install -r /djangoapp/requirements.txt
+RUN adduser --disabled-password --no-create-home duser
+RUN chown -R duser:duser /.venv
+#RUN chown -R duser:duser /djangoapp
 
-RUN chmod -R 755 /djangoapp 
-RUN chmod -R 755 /data/web/static
-RUN chmod -R 755 /data/web/media
-VOLUME [ "./data/web/static:/data/web/static", "./data/web/media:/data/web/media" ]
+#RUN chmod -R 755 /djangoapp 
 RUN chmod -R +x /scripts
 
 ENV PATH="/scripts:/.venv/bin:$PATH"
 
-# USER duser
+USER duser
 
 CMD [ "commands.sh" ]
