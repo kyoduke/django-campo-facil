@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {# Load the tag library #}
 {% load bootstrap5 %}
 
@@ -5,12 +6,19 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
+{% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32"  href="{% static '/img/favicon/bola-32png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static '/img/favicon/bola-96.png' %} ">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static './img/favicon/bola-16.png' %}">
+    <link rel="manifest" href="./img/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./img/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <title>
         {% block head_title %}
         {% endblock head_title %}
@@ -18,23 +26,22 @@
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
-<body>
+<body class="bg-light">
     {% block body %}
-    {% if messages %}
-    <div>
-        <strong>{% trans "Messages:" %}</strong>
-        <ul>
-            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-        </ul>
-    </div>
-    {% endif %}
+    
     <div>
         {% comment %} change from here {% endcomment %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 
                 {% comment %} change to football_fields home page  {% endcomment %}
-                <a class='navbar-brand' {% url "home" %}>Campo Fácil</a>
+                <a class="navbar-brand" 
+                {% if user.is_authenticated %}
+                href="{% url 'home' %}"
+                {% else %}
+                href="{% url 'account_login' %}"
+                {% endif %} 
+                >Campo Fácil</a>
                 
                 
                 {% comment %} <strong>{% trans "Menu:" %}</strong> {% endcomment %}
@@ -42,7 +49,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-ls-0">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {% if user.is_authenticated %}
                         {% url 'account_email' as email_url %}
                         {% if email_url %}
@@ -93,14 +100,26 @@
                 
                 
                 
-            </nav>
+            </div>
+        </nav>
+        
+    </div>
+    <div class="container-lg mt-sm-2 mt-lg-3">
+        {% if messages %}
+        <div>
+            <strong>Mensagem:</strong>
+            <ul>
+                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+            </ul>
         </div>
+        {% endif %}
         {% block content %}
         {% endblock content %}
         {% endblock body %}
         {% block extra_body %}
         {% endblock extra_body %}
-    </body>
-    </html>
+    </div>
     
-    
+</body>
+</html>
+
