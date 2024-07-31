@@ -28,8 +28,8 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=100, blank=True, default='')
-    last_name = models.CharField(max_length=100, blank=True, default='')
+    first_name = models.CharField(verbose_name='nome', max_length=100, blank=True, default='')
+    last_name = models.CharField(verbose_name='sobrenome', max_length=100, blank=True, default='')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
+      {{ message|safe }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+  <div class="container">
+    <h1>{{ user.get_full_name }}</h1>
+    <p>{{ user.email }}</p>
+    <form action="/users/profile/" method="POST">
+      {% csrf_token %}
+      {{ form }}
+      <button class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+{% endblock %}

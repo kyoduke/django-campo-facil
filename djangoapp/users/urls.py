@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home_view),
+    path('profile/', views.user_profile_view, name='profile')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
