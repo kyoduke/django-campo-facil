@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-
+{% block page_title %}
+  {% if user.first_name %}
+    Perfil :: {{ user.first_name }}
+  {% else %}
+    Perfil ::
+  {% endif %}
+{% endblock %}
 {% block content %}
   {% for message in messages %}
     <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
@@ -7,12 +13,19 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   {% endfor %}
-  <div class="container">
+  <div class="container d-flex flex-column align-items-center">
     <h1>{{ user.get_full_name }}</h1>
-    <p>{{ user.email }}</p>
-    <form action="/users/profile/" method="POST">
+    <img class=""
+      style="width: 100px; height: 100px; border-radius: 50%;"
+      src="{% if user.profile_image %}
+        {{ user.profile_image.url }}
+      {% else %}
+        /media/img/default_profile_image.jpg
+      {% endif %}"
+      alt="" />
+    <form action="/users/profile/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {{ form }}
+      <div class="form-group">{{ form.as_p }}</div>
       <button class="btn btn-primary">Enviar</button>
     </form>
   </div>

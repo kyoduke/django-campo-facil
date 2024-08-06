@@ -21,8 +21,7 @@ def home_view(request: HttpRequest):
 @login_required(redirect_field_name='account_login')
 def user_profile_view(request: HttpRequest):
     if request.method == 'POST':
-        user_form = UpdateProfileForm(request.POST, instance=request.user)
-
+        user_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
             user_form.save()
             messages.success(request, 'Seu perfil foi atualizado com sucesso.')

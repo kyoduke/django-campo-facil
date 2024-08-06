@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin 
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -37,6 +38,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
+
+    profile_image = models.ImageField(null=True, blank=True, upload_to='users_profile_image')
+    phone_number = PhoneNumberField(blank=True)
 
     objects:CustomUserManager = CustomUserManager()
 

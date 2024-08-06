@@ -12,7 +12,9 @@ class CustomUserAdmin(UserAdmin):
         "first_name",
         "last_name",
         "is_staff",
-        "is_active",
+        "is_active",  
+        "profile_image",  
+        "phone_number",  
     )
     list_filter = (
         "email",
@@ -20,6 +22,8 @@ class CustomUserAdmin(UserAdmin):
         "last_name",
         "is_staff",
         "is_active",
+        "profile_image",  
+        "phone_number",
     )
     fieldsets = (
         (None, {"fields": (
@@ -27,6 +31,8 @@ class CustomUserAdmin(UserAdmin):
             "last_name", 
             "email", 
             "password", 
+            "profile_image",  
+            "phone_number",  
             )}
         ),
         ("Permissions", {"fields": (
