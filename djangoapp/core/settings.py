@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     'users.apps.UsersConfig',
+    'football_fields.apps.FootballFieldsConfig',
 
 
     'allauth',
