@@ -31,6 +31,7 @@ class FootballField(models.Model):
     ('HIB', 'Híbrido'),
     ]
 
+    main_image = models.ImageField(blank=True, null=True, upload_to='football_fields_images')
     name = models.CharField(max_length=100, default='Campo')
     field_dimensions = models.CharField(max_length=9, blank=True, default='')
     description = models.TextField(max_length=1500, blank=True, default='')
@@ -56,7 +57,7 @@ class Address(models.Model):
     ('MG', 'Minas Gerais'),
     ]
 
-    football_field = models.OneToOneField(FootballField, on_delete=models.CASCADE)
+    football_field = models.OneToOneField(FootballField, on_delete=models.CASCADE, related_name='address')
     address_one = models.CharField(max_length=300)
     address_two = models.CharField(max_length=300, blank=True)
     state = models.CharField(max_length=2, choices=STATE_CHOICES, default='')
@@ -71,7 +72,7 @@ class Address(models.Model):
         return f'{self.address_one} {self.address_two} - {self.state}'
 
 class Attachment(models.Model):
-    football_field = models.ForeignKey(FootballField, on_delete=models.CASCADE,) 
+    football_field = models.ForeignKey(FootballField, on_delete=models.CASCADE, related_name='attachments') 
     image = models.ImageField(blank=True, null=True, upload_to='football_fields_images')
 
 

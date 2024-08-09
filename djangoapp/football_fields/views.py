@@ -36,3 +36,9 @@ def create_football_field(request: HttpRequest):
             'address_form': address_form,
             'attachment_form': attachment_form_set
         })
+
+
+def football_field_list(request: HttpRequest):
+    fields = FootballField.objects.all()
+    one_field_for_testing = fields[0]
+    return render(request, template_name='football_fields/list_football_fields.html', context={'fields': fields})

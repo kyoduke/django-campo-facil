@@ -2,6 +2,7 @@ from django import forms
 from football_fields.models import FootballField, Address, Attachment
 
 class FootballFieldForm(forms.ModelForm):
+    main_image = forms.ImageField(max_length=200)
     name = forms.CharField()
     field_dimensions = forms.CharField()
     description = forms.CharField(widget=forms.widgets.Textarea(attrs={'rows': '5'}))
@@ -15,7 +16,7 @@ class FootballFieldForm(forms.ModelForm):
 
     class Meta:
         model = FootballField
-        fields = ['name', 'field_dimensions', 'description', 'grass_type', 'has_field_lighting', 'has_changing_room', 'hour_price',
+        fields = ['main_image', 'name', 'field_dimensions', 'description', 'grass_type', 'has_field_lighting', 'has_changing_room', 'hour_price',
                   'facilities', 'rules']
 
 
