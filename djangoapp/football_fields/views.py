@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import FootballField, Address
 
 # Create your views here.
-def football_field_list(request: HttpRequest):
+def create_football_field(request: HttpRequest):
     if request.method == 'POST':
         field_form = FootballFieldForm(request.POST)
         address_form = AddressForm(request.POST)
