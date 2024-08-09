@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
+      {{ message|safe }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+  <div class="container d-flex flex-column align-items-center">
+    <h1>Adicionar um novo Campo</h1>
+    <form action="/fields/" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h3>Informações</h3>
+      {{ field_form.as_p }}
+      <h3>Endereço</h3>
+      {{ address_form.as_p }}
+      <h3>Imagens</h3>
+      {{ attachment_form.as_p }}
+
+      <button>Adicionar Campo</button>
+    </form>
+  </div>
+{% endblock %}

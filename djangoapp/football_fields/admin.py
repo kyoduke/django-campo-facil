@@ -15,3 +15,6 @@ class AttachmentStackedInline(admin.StackedInline):
 class FootBallFieldAdmin(admin.ModelAdmin):
     inlines = [AddressStackedInline, AttachmentStackedInline]
 
+@admin.register(Attachment)
+class AttachmentAdmin(admin.ModelAdmin):
+    pass
