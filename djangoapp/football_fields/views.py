@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import FootballFieldForm, AddressForm, AttachmentFormSet
+from .forms import FootballFieldForm, AddressForm, AttachmentFormSet, FootballFieldFilterForm
 from django.http import HttpRequest
 from django.contrib import messages
 from .models import FootballField, Address
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(redirect_field_name='account_login')
 def create_football_field(request: HttpRequest):
     if request.method == 'POST':
         field_form = FootballFieldForm(request.POST)
@@ -38,7 +40,26 @@ def create_football_field(request: HttpRequest):
         })
 
 
+
+@login_required(redirect_field_name='account_login')
 def football_field_list(request: HttpRequest):
+    form = FootballFieldFilterForm(request.GET or None) 
     fields = FootballField.objects.all()
-    one_field_for_testing = fields[0]
-    return render(request, template_name='football_fields/list_football_fields.html', context={'fields': fields})
+
+    if form.is_valid():
+        if form.cleaned_data['city']:
+            fields = fields.filter(address__city__icontains=form.cleaned_data['city'])
+        if form.cleaned_data['grass_type']:
+            fields = fields.filter(grass_type=form.cleaned_data['grass_type'])
+        if form.cleaned_data['has_field_lighting']:
+            fields = fields.filter(has_field_lighting=form.cleaned_data['has_field_lighting'])
+        if form.cleaned_data['has_changing_room']:
+            fields = fields.filter(has_changing_room=form.cleaned_data['has_changing_room'])
+        if form.cleaned_data['max_hour_price']:
+            fields = fields.filter(hour_price__lte=form.cleaned_data['max_hour_price'])
+
+    context = {
+        'form': form,
+        'fields': fields
+    }
+    return render(request, template_name='football_fields/list_football_fields.html', context=context)

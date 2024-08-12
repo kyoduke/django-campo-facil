@@ -3,9 +3,39 @@
   Campo Fácil :: Campos
 {% endblock %}
 {% block content %}
-  <div class="container-fluid">
-    <h1>Lista de Campos</h1>
+  <div class="container-fluid d-flex flex-column flex-md-row">
+    <div class="col-12 col-md-4 pe-md-1">
+      <h3>Filtro de pesquisa</h3>
+      <form class="" action="{% url 'football_field_list' %}" method="get">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="" for="city">Cidade</label>
+          {{ form.city }}
+        </div>
+        <div class="form-group">
+          <label class="" for="grass_type">Gramado</label>
+          {{ form.grass_type }}
+        </div>
+        <hr>
+        <div class="form-check-inline">
+          <label class="form-check-label" for="has_field_lighting">Iluminação</label>
+          {{ form.has_field_lighting }}
+        </div>
+        <div class="form-check-inline">
+          <label class="form-check-label" for="has_changing_room">Vestiário</label>
+          {{ form.has_changing_room }}
+        </div>
+        <hr>
+        <div class="form-group">
+          <label class"" for="max_hour_price">Preço Máximo por hora: </label>
+          {{ form.max_hour_price }}
+        </div>
+        <button class="mt-3 btn btn-dark ">Submit</button>
+      </form>
+    </div>
+
     <div class="row">
+      <h1>Lista de Campos</h1>
       {% for field in fields %}
         <div class="col-md-4 col-sm-6 d-flex align-items-stretch mb-4">
           <div class="card">
