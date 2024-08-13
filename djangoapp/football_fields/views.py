@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(redirect_field_name='account_login')
 def create_football_field(request: HttpRequest):
     if request.method == 'POST':
-        field_form = FootballFieldForm(request.POST)
+        field_form = FootballFieldForm(request.POST, request.FILES)
         address_form = AddressForm(request.POST)
         attachment_form_set = AttachmentFormSet(data=request.POST, files=request.FILES)
         if field_form.is_valid() and address_form.is_valid() and attachment_form_set.is_valid():

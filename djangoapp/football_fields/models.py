@@ -64,6 +64,8 @@ class Address(models.Model):
     city = models.CharField(max_length=200)
     district = models.CharField(max_length=50)
     cep_code = models.CharField(max_length=9)
+    latitude = models.DecimalField(max_digits=9, decimal_places=7, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=7, blank=True, null=True)
 
 
     def save(self, *args, **kwargs):

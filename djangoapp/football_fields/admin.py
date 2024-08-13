@@ -18,3 +18,7 @@ class FootBallFieldAdmin(admin.ModelAdmin):
 @admin.register(Attachment)
 class AttachmentAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    pass

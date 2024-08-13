@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block head_content %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{% endblock %}
+
 {% block content %}
   {% for message in messages %}
     <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
@@ -7,18 +13,41 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   {% endfor %}
-  <div class="container d-flex flex-column align-items-center">
-    <h1>Adicionar um novo Campo</h1>
-    <form action="/fields/" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h3>Informações</h3>
-      {{ field_form.as_p }}
-      <h3>Endereço</h3>
-      {{ address_form.as_p }}
-      <h3>Imagens</h3>
-      {{ attachment_form.as_p }}
+  <div class="container-fluid d-flex flex-md-row flex-column">
+    <div class="col-lg-6 pt-5">
+      <h1>Adicionar um novo Campo</h1>
+      <form action="/fields/new" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Endereço</h3>
+        {{ address_form.as_p }}
+        <h3>Informações</h3>
+        {{ field_form.as_p }}
 
-      <button>Adicionar Campo</button>
-    </form>
+        <h3>Imagens</h3>
+        {{ attachment_form.as_p }}
+
+        <button>Adicionar Campo</button>
+      </form>
+    </div>
+    <div class="col-lg-6 p-md-5">
+      <div class="border rounded border-2 border-primary" id="map" style="height: 500px;"></div>
+    </div>
   </div>
+  <script>
+    var map = L.map('map').setView([-22.9191, -42.8183], 13)
+    let layerGroup = L.layerGroup()
+    let lat = document.querySelector('#id_latitude')
+    let lng = document.querySelector('#id_longitude')
+    
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map)
+    map.on('click', function (e) {
+      layerGroup.clearLayers()
+      layerGroup.addLayer(L.marker([e.latlng.lat, e.latlng.lng]).addTo(map))
+      map.addLayer(layerGroup)
+      lat.value = Number(e.latlng.lat).toFixed(7)
+      lng.value = Number(e.latlng.lng).toFixed(7)
+    })
+  </script>
 {% endblock %}
