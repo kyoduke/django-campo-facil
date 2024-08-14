@@ -4,6 +4,8 @@ from django.http import HttpRequest
 from django.contrib import messages
 from .models import FootballField, Address
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+import json
 
 # Create your views here.
 @login_required(redirect_field_name='account_login')
@@ -46,6 +48,8 @@ def football_field_list(request: HttpRequest):
     form = FootballFieldFilterForm(request.GET or None) 
     fields = FootballField.objects.all()
 
+    addresses = Address.objects.all()
+
     if form.is_valid():
         if form.cleaned_data['city']:
             fields = fields.filter(address__city__icontains=form.cleaned_data['city'])
@@ -60,6 +64,7 @@ def football_field_list(request: HttpRequest):
 
     context = {
         'form': form,
-        'fields': fields
+        'fields': fields,
+        'addresses': serializers.serialize('json', addresses)
     }
     return render(request, template_name='football_fields/list_football_fields.html', context=context)

@@ -70,8 +70,10 @@ class Address(models.Model):
 
     def save(self, *args, **kwargs):
         super().save()
+
     def __str__(self) -> str:
         return f'{self.address_one} {self.address_two} - {self.state}'
+
 
 class Attachment(models.Model):
     football_field = models.ForeignKey(FootballField, on_delete=models.CASCADE, related_name='attachments') 
