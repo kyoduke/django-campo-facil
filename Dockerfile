@@ -3,7 +3,7 @@ LABEL mantainer="caioduque.dev@gmail.com"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 
-ENV PYTHONNUNBUFFERED 1
+ENV PYTHONUNBUFFERED 1
 
 COPY djangoapp /djangoapp
 COPY scripts /scripts
