@@ -48,7 +48,12 @@ def football_field_list(request: HttpRequest):
     form = FootballFieldFilterForm(request.GET or None) 
     fields = FootballField.objects.all()
 
-    addresses = Address.objects.all()
+    addresses = Address.objects.select_related('football_field').all()
+    data = []
+    for address in addresses:
+        if address.latitude and address.longitude:
+            data.append({'name': address.football_field.name, 'latitude': float(address.latitude), 'longitude': float(address.longitude)})
+    # addresses = Address.objects.all()
 
     if form.is_valid():
         if form.cleaned_data['city']:
@@ -65,6 +70,6 @@ def football_field_list(request: HttpRequest):
     context = {
         'form': form,
         'fields': fields,
-        'addresses': serializers.serialize('json', addresses)
+        'addresses': json.dumps(data)
     }
     return render(request, template_name='football_fields/list_football_fields.html', context=context)

@@ -11,7 +11,7 @@
 {% block content %}
   <div class="container-fluid d-flex flex-column flex-md-row">
     <div class="col-12 col-md-4">
-      <h3>Filtro de pesquisa</h3>
+      <h3 class="text-center">Filtro de pesquisa</h3>
       <form class="" action="{% url 'football_field_list' %}" method="get">
         {% csrf_token %}
         <div class="form-group">
@@ -41,8 +41,8 @@
     </div>
 
     <div class="ps-md-2 col-12 col-md-8">
-      <h1>Lista de Campos</h1>
-      <div class="border rounded border-2 border-primary" id="map" style="height: 400px;"></div>
+      <h1 class="text-center">Lista de Campos</h1>
+      <div class="border rounded border-2 border-primary" id="map" style="height: 300px;"></div>
       <div class="row">
         {% for field in fields %}
           <div class="col-md-4 col-sm-6 d-flex align-items-stretch mt-4">
@@ -66,8 +66,10 @@
     </div>
   </div>
   <script>
-    const displayMarkers = (lat, lng, group) => {
-      group.addLayer(L.marker([lat, lng])).addTo(map)
+    const displayMarkers = (address, group) => {
+      let marker = L.marker([address.latitude, address.longitude])
+      marker.bindPopup(`<b>${address.name}</b>`).openPopup();
+      group.addLayer(marker).addTo(map)
     }
     var map = L.map('map').setView([-22.9191, -42.8183], 13)
     let layerGroup = L.layerGroup()
@@ -79,8 +81,8 @@
     console.log(data)
     data.forEach((address) => {
       console.log(address)
-      if (address.fields.latitude) {
-        displayMarkers(address.fields.latitude, address.fields.longitude, layerGroup)
+      if (address.latitude && address.longitude) {
+        displayMarkers(address, layerGroup)
       }
     })
     map.addLayer(layerGroup)
