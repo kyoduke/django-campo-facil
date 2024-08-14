@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'users.apps.UsersConfig',
     'football_fields.apps.FootballFieldsConfig',
+    'reservation.apps.ReservationConfig',
 
 
     'allauth',
