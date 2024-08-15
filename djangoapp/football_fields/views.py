@@ -48,13 +48,6 @@ def football_field_list(request: HttpRequest):
     form = FootballFieldFilterForm(request.GET or None) 
     fields = FootballField.objects.all()
 
-    addresses = Address.objects.select_related('football_field').all()
-    data = []
-    for address in addresses:
-        if address.latitude and address.longitude:
-            data.append({'name': address.football_field.name, 'latitude': float(address.latitude), 'longitude': float(address.longitude)})
-    # addresses = Address.objects.all()
-
     if form.is_valid():
         if form.cleaned_data['city']:
             fields = fields.filter(address__city__icontains=form.cleaned_data['city'])
@@ -66,6 +59,12 @@ def football_field_list(request: HttpRequest):
             fields = fields.filter(has_changing_room=form.cleaned_data['has_changing_room'])
         if form.cleaned_data['max_hour_price']:
             fields = fields.filter(hour_price__lte=form.cleaned_data['max_hour_price'])
+    
+
+    data = []
+    for field in fields:
+        if field.address.latitude and field.address.longitude:
+            data.append({'name': field.name, 'latitude': float(field.address.latitude), 'longitude': float(field.address.longitude)})
 
     context = {
         'form': form,
