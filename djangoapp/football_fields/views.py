@@ -72,3 +72,18 @@ def football_field_list(request: HttpRequest):
         'addresses': json.dumps(data)
     }
     return render(request, template_name='football_fields/list_football_fields.html', context=context)
+
+
+@login_required(redirect_field_name='account_login')
+def football_field_detail(request:HttpRequest, pk:int):
+    try:
+        field = FootballField.objects.get(pk=pk)
+    except FootballField.DoesNotExist:
+        messages.warning(request, 'Este campo não existe mais.')
+        return redirect(to='football_field_list')   
+
+    context = {
+        'field': field
+    }
+
+    return render(request, 'football_fields/detail.html', context)

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block page_title %}
+  Campo Fácil :: {{ field.name }}
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid pt-2">
+    <h1>{{ field.name }}</h1>
+    <p>Descrição: {{ field.description }}</p>
+    <p>Facilidades: {{ field.facilities }}</p>
+    <p>Regras: {{ field.rules }}</p>
+    <p>Preço por hora: {{ field.hour_price }}</p>
+    <div class="address">
+      <h4>Endereço</h4>
+      <p>{{ field.address.address_one }}</p>
+      <p>{{ field.address.address_two }}</p>
+      <p>{{ field.address.district }}, {{ field.address.city }}, {{ field.address.state }}</p>
+    </div>
+    <div class="images">
+      {% for attachment in field.attachments.all %}
+        <div class="image">
+          <img style="height: 100px;" src="{{ attachment.image.url }}" alt="" />
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
