@@ -26,7 +26,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
     path('fields/', include('football_fields.urls')),
-    path('reservation/', include('reservation.urls')),
+    path('reservations/', include('reservations.urls')),
 ]
 
 if settings.DEBUG:

@@ -9,4 +9,9 @@
 
 {% block content %}
   <h1>Reservar um campo</h1>
+  <form action="new" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Submit</button>
+  </form>
 {% endblock %}
