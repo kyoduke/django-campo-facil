@@ -6,6 +6,7 @@
 {% block content %}
   <div class="container-fluid pt-2">
     <h1>{{ field.name }}</h1>
+    <a class="btn btn-success mb-2" href="/reservations/{{ field.pk }}">Reservar</a>
     <p>Descrição: {{ field.description }}</p>
     <p>Facilidades: {{ field.facilities }}</p>
     <p>Regras: {{ field.rules }}</p>
