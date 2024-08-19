@@ -8,10 +8,89 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Reservar um campo</h1>
-  <form action="new" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>Submit</button>
-  </form>
+  <div class="container-fluid">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
+        {{ message|safe }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    <div class="row align-items-center justify-content-center my-3 border rounded text-center">
+      <div class="col-6">
+        <h3 class="">{{ field.name }}</h3>
+      </div>
+      <div class="col-6">
+        <span class="">Preço por hora: <strong id="hour_price">{{ field.hour_price }}</strong> R$</span>
+      </div>
+    </div>
+    <h1 class="text-center my-5">Reserva</h1>
+    <form action="/reservations/{{ field.pk }}" method="post">
+      <div class="px-lg-5">
+        <div class="px-md-2 px-lg-5 col col-sm-8 col-md-6 col-lg-4 mx-auto">
+          <div class="d-flex flex-column justify-content-between">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="reservation_day" class="form-label">Dia</label>
+              <input class="form-control" type="date" name="reservation_day" id="id_reservation_day" placeholder="25/12/2024" required />
+              <div class="form-text text-muted"></div>
+            </div>
+            {% comment %} {{ form.as_p }} {% endcomment %}
+            <div class="mb-3">
+              <label for="start_time" class="form-label">Inicio</label>
+              <input class="form-control" type="time" name="start_time" id="id_start_time" required />
+              <div class="form-text text-muted">Horário de inicio</div>
+            </div>
+            <div class="mb-3">
+              <label for="end_time" class="form-label">Fim</label>
+              <input class="form-control" type="time" name="end_time" id="id_end_time" required />
+              <div class="form-text text-muted">Horario de encerramento</div>
+            </div>
+            <p class="mb-1">Total</p>
+            <p id="value" class="bg-white border ps-1">0</p>
+            <button onclick="calculatePrice()" type="button" id="total_btn" class="btn btn-primary">Calcular total</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-grid d-lg-block px-md-4 mt-lg-5 text-lg-center">
+        <button class="btn btn-dark">Reservar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    const date = document.getElementById('id_reservation_day')
+    date.min = new Date().toISOString().split('T')[0]
+    
+    function calculatePrice(e) {
+      const start_time = document.getElementById('id_start_time')
+      const end_time = document.getElementById('id_end_time')
+    
+      filterTime(start_time)
+      filterTime(end_time)
+    
+      const total_value = document.getElementById('value')
+      const hour_price = document.getElementById('hour_price').textContent
+    
+      const [startHourH, startHourM] = start_time.value.split(':').map(Number)
+      const [endHourH, endHourM] = end_time.value.split(':').map(Number)
+    
+      const start = new Date(0, 0, 0, startHourH, startHourM)
+      const end = new Date(0, 0, 0, endHourH, endHourM)
+    
+      const durationInMilliseconds = end - start
+      const durationInHours = durationInMilliseconds / (1000 * 60 * 60)
+    
+      const totalPrice = durationInHours * hour_price
+      if (totalPrice.toFixed(2) < 0) {
+        total_value.textContent = 0
+      } else {
+        total_value.textContent = totalPrice.toFixed(2) + ' R$'
+      }
+    }
+    
+    function filterTime(e) {
+      let [hour, mins] = e.value.split(':')
+      e.value = `${hour}:00`
+    }
+  </script>
 {% endblock %}
