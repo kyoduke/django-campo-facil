@@ -42,10 +42,10 @@ class Reservation(models.Model):
     def clean(self):
         if isinstance(self.start_time, datetime.time) and isinstance(self.end_time, datetime.time) and isinstance(self.reservation_day, datetime.date):
             if self.start_time >= self.end_time:
-                raise ValidationError(_('End time must be after start time.')) 
+                raise ValidationError({'end_time':_('End time must be after start time.')}) 
             
             if self.reservation_day < datetime.datetime.now().date():
-                raise ValidationError(_('Cannot create reservations in the past.'))
+                raise ValidationError({'reservation_day':_('Cannot create reservations in the past.')})
 
             # Check if the reservation date being saved conflicts
             # with other reservation date
