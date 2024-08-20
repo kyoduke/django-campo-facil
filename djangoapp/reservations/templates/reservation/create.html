@@ -31,18 +31,17 @@
             {% csrf_token %}
             <div class="mb-3">
               <label for="reservation_day" class="form-label">Dia</label>
-              <input class="form-control" type="date" name="reservation_day" id="id_reservation_day" placeholder="25/12/2024" required />
+              <input type="date" name="reservation_day" class="form-control" id="id_reservation_day" placeholder="25/12/2024" required />
               <div class="form-text text-muted"></div>
             </div>
-            {% comment %} {{ form.as_p }} {% endcomment %}
             <div class="mb-3">
               <label for="start_time" class="form-label">Inicio</label>
-              <input class="form-control" type="time" name="start_time" id="id_start_time" required />
+              <input type="time" name="start_time" class="form-control" id="id_start_time" required />
               <div class="form-text text-muted">Horário de inicio</div>
             </div>
             <div class="mb-3">
               <label for="end_time" class="form-label">Fim</label>
-              <input class="form-control" type="time" name="end_time" id="id_end_time" required />
+              <input type="time" name="end_time" class="form-control" id="id_end_time" required />
               <div class="form-text text-muted">Horario de encerramento</div>
             </div>
             <p class="mb-1">Total</p>
