@@ -10,7 +10,7 @@ User = get_user_model()
 
 class ReservationManager(models.Manager):
     def upcoming(self):
-        return self.filter(start_time__gt=datetime.datetime.now())
+        return self.filter(status='confirmed')
     
 
 
@@ -27,7 +27,6 @@ class Reservation(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='confirmed')
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

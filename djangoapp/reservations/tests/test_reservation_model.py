@@ -1,10 +1,11 @@
 import pytest
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from datetime import time, timedelta, date
+from datetime import time, timedelta, date, datetime 
 from django.contrib.auth import get_user_model
 from reservations.models import Reservation  
 from football_fields.models import FootballField
+from freezegun import freeze_time
 
 User = get_user_model()
 
@@ -73,3 +74,41 @@ class TestReservationModel:
         reservation.end_time = time(14, 0)
         with pytest.raises(ValidationError):
             reservation.full_clean()  # This should raise a ValidationError
+
+    def test_reservation_upcoming_filter(self, user, football_field):
+        Reservation.objects.create(
+            user=user,
+            football_field=football_field,
+            reservation_day=date(3028, 1, 1),
+            start_time=time(12,0), 
+            end_time=time(13,0),
+            status='finished'
+        )
+        Reservation.objects.create(
+            user=user,
+            football_field=football_field,
+            reservation_day=date(3024, 9, 1),
+            start_time=time(15,0), 
+            end_time=time(16,0),
+            status='confirmed'
+        )
+        Reservation.objects.create(
+            user=user,
+            football_field=football_field,
+            reservation_day=date(3024, 10, 1),
+            start_time=time(18,0), 
+            end_time=time(19,0),
+            status='finished'
+        )
+        Reservation.objects.create(
+            user=user,
+            football_field=football_field,
+            reservation_day=date(3029, 1, 1),
+            start_time=time(15,0), 
+            end_time=time(16,0),
+            status='confirmed'
+        )
+
+        upcoming = Reservation.objects.upcoming()
+        count = upcoming.count()
+        assert count == 2
