@@ -44,6 +44,7 @@ class FootballField(models.Model):
 
 
     def save(self, *args, **kwargs):
+        self.full_clean()
         super().save()
 
     def __str__(self) -> str:
@@ -69,6 +70,7 @@ class Address(models.Model):
 
 
     def save(self, *args, **kwargs):
+        self.full_clean()
         super().save()
 
     def __str__(self) -> str:

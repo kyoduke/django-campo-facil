@@ -15,7 +15,7 @@ class TestReservationForm:
 
     @pytest.fixture
     def football_field(self):
-        return FootballField.objects.create(name='Test Field')
+        return FootballField.objects.create(name='Test Field', hour_price=200)
 
     @pytest.fixture
     def form_data(self):

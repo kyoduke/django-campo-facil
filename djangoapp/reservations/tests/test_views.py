@@ -13,7 +13,7 @@ class TestReservationViews:
 
     @pytest.fixture
     def football_field(self, db):
-        return FootballField.objects.create(name='campo do jacá')
+        return FootballField.objects.create(name='campo do jacá', hour_price=200)
 
     @pytest.fixture
     def user(self, db):
