@@ -5,7 +5,6 @@ from datetime import time, timedelta, date, datetime
 from django.contrib.auth import get_user_model
 from reservations.models import Reservation  
 from football_fields.models import FootballField
-from freezegun import freeze_time
 
 User = get_user_model()
 
