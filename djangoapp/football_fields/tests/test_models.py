@@ -5,28 +5,29 @@ from football_fields.models import FootballField, Address, Attachment
 @pytest.mark.django_db
 class TestModels:
 
-    @pytest.fixture
-    def field(self):
-        return FootballField.objects.create(name='campinho', hour_price=200)
+    @pytest.fixture()
+    def football_field_fixture(self):
+        yield FootballField.objects.create(name='campinho', hour_price=200)
 
-    @pytest.fixture
-    def address_fixture(self, field):
-        return Address.objects.create(football_field=field, address_one='R. Dois', state='RJ', city='Maricá', district='Itaipuaçu', cep_code='24999-392')
 
-    @pytest.fixture
-    def attachment_fixture(self, field):
+    @pytest.fixture()
+    def address_fixture(self, football_field_fixture):
+        yield Address.objects.create(football_field=football_field_fixture, address_one='R. Dois', state='RJ', city='Maricá', district='Itaipuaçu', cep_code='24999-392')
+
+
+    @pytest.fixture()
+    def attachment_fixture(self, football_field_fixture):
         image_url = 'http://placehold.it/640x480'
-        return Attachment.objects.create(football_field=field, image=image_url)
+        yield Attachment.objects.create(football_field=football_field_fixture, image=image_url)
 
     def test_field_creation_without_price(self):
         with pytest.raises(ValidationError, match="hour_price"):
             FootballField.objects.create(name='campinho')
-
         assert FootballField.objects.all().count() == 0
 
 
-    def test_field_str_method(self, field):
-        assert field.__str__() == f'{field.name}'
+    def test_field_str_method(self, football_field_fixture):
+        assert football_field_fixture.__str__() == f'{football_field_fixture.name}'
 
 
     @pytest.mark.parametrize(
@@ -39,9 +40,9 @@ class TestModels:
                 ('R. Dois', 'Quadra 2', 'RJ', 'Maricá', 'Itaipuaçu', '', 'cep_code'),
             ]
     )
-    def test_empty_address_creation(self, field, address_one, address_two, state, city, district, cep_code, error):
+    def test_empty_address_creation(self, football_field_fixture, address_one, address_two, state, city, district, cep_code, error):
         with pytest.raises(ValidationError, match=error):
-            Address.objects.create(football_field=field, address_one=address_one, address_two=address_two, state=state, city=city, district=district, cep_code=cep_code)
+            Address.objects.create(football_field=football_field_fixture, address_one=address_one, address_two=address_two, state=state, city=city, district=district, cep_code=cep_code)
         
 
     def test_address_creation(self, address_fixture: Address):
