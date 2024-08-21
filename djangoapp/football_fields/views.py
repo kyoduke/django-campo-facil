@@ -24,7 +24,7 @@ def create_football_field(request: HttpRequest):
             attachment_form_set.save()
 
             messages.success(request, 'Campo de futebol adicionado com sucesso.')
-            return redirect(to='home')
+            return redirect(to='football_field_list')
         else:
             return render(request, 'football_fields/create_football_field.html', {
             'field_form': field_form,
