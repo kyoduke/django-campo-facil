@@ -25,7 +25,7 @@ class TestReservationModel:
         return Reservation.objects.create(
             user=user,
             football_field=football_field,
-            reservation_day=date.today(),
+            reservation_day=(datetime.now() + timedelta(days=1)).date(),
             start_time=time(14, 0),
             end_time=time(16, 0),
             status='confirmed'

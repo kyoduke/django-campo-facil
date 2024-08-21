@@ -1,5 +1,5 @@
 import pytest
-from datetime import time, date, timedelta
+from datetime import time, date, timedelta, datetime
 from reservations.forms import ReservationForm
 from reservations.models import Reservation
 from django.contrib.auth import get_user_model
@@ -20,7 +20,7 @@ class TestReservationForm:
     @pytest.fixture
     def form_data(self):
         return {
-            'reservation_day': date.today(),
+            'reservation_day': (datetime.now() + timedelta(days=1)).date(),
             'start_time': time(14, 0),
             'end_time': time(16, 0),
         }
