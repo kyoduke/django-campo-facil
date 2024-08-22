@@ -54,6 +54,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "profile" %}">Perfil</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "user_reservations" %}">{% trans "Reservations" %}</a>
+                        </li>
                         {% url 'account_email' as email_url %}
                         {% if email_url %}
                         <li class="nav-item">

@@ -34,10 +34,15 @@ def create_reservation(request: HttpRequest, pk:int):
 
 
 
-    template_name = 'reservation/create.html'
+    template_name = 'reservations/create.html'
     form = ReservationForm()
     context = {
         'form': form,
         'field': field
     }
     return render(request, template_name=template_name, context=context)
+
+
+def user_reservations(request: HttpRequest):
+    context = {}
+    return render(request, 'reservations/user_reservations.html', context=context)
