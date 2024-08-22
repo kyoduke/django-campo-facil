@@ -28,9 +28,9 @@
             {% comment %} change to football_fields home page  {% endcomment %}
             <a class="navbar-brand" 
             {% if user.is_authenticated %}
-            href="{% url 'home' %}"
+            href="{% url "football_field_list" %}"
             {% else %}
-            href="{% url 'account_login' %}"
+            href="{% url "account_login" %}"
             {% endif %} 
             >Campo Fácil</a>
             
