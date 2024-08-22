@@ -13,9 +13,9 @@ lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
 
 logging.basicConfig(format=fmt, level=lvl)
 
-@login_required(redirect_field_name='account_login')
-def home_view(request: HttpRequest):
-    return render(request, 'base.html')
+# @login_required(redirect_field_name='account_login')
+# def home_view(request: HttpRequest):
+#     return render(request, 'base.html')
 
 
 @login_required(redirect_field_name='account_login')
@@ -28,8 +28,8 @@ def user_profile_view(request: HttpRequest):
             return redirect(to='profile')
         else:
             new_form = UpdateProfileForm(instance=request.user)
-            messages.error(request, 'Formulário inválido.')
-            return render(request, 'users/profile.html', {'form': new_form})
+            messages.warning(request, 'Formulário inválido.')
+            return redirect(to='profile')
     
     form = UpdateProfileForm(instance=request.user)
     return render(request, 'users/profile.html', {'form': form})
