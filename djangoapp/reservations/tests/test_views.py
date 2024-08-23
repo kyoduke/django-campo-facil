@@ -73,7 +73,7 @@ class TestReservationViews:
         response: HttpResponse = client.get(url)
 
         assert response.status_code == 302
-        assert response.url == '/fields/'
+        assert response.url == '/'
 
     def test_form_errors(self, logged_user, football_field, client: Client):
         """

@@ -54,13 +54,15 @@ class TestFootballFieldViews():
         yield logged 
 
     def test_access_without_login(self, client: Client):
-        response = client.get('/fields/')
+        url = reverse('football_field_list')
+        response = client.get(url)
 
         assert '/accounts/login/' in response.url
         assert response.status_code == 302
 
     def test_access_with_logged_user(self, client: Client, logged):
-        response = client.get('/fields/')
+        url = reverse('football_field_list')
+        response = client.get(url)
 
         assert logged is True
         assert response.status_code == 200
@@ -69,7 +71,8 @@ class TestFootballFieldViews():
         """
         tests if view is sending latitude and longitude in the context
         """
-        response = client.get('/fields/')
+        url = reverse('football_field_list')
+        response = client.get(url)
         context = response.context[0]
         data = []
         for i in context:
@@ -98,7 +101,7 @@ class TestFootballFieldViews():
         print(response.content.decode('utf-8'))
 
         assert response.status_code == 302
-        assert 'fields' in response.url
+        assert response.url == '/'
 
 
     def test_is_form_rendered(self, client: Client, logged):
@@ -120,4 +123,4 @@ class TestFootballFieldViews():
         response = client.get(url)
 
         assert response.status_code == 302
-        assert response.url == '/fields/'
+        assert response.url == '/'

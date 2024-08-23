@@ -21,11 +21,10 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('', views.home_page, name='home'),
+    path('', include('football_fields.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
-    path('fields/', include('football_fields.urls')),
     path('reservations/', include('reservations.urls')),
 ]
 
