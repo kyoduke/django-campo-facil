@@ -10,32 +10,51 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   {% endfor %}
-  <div class="container-fluid pt-2">
-    <h1>{{ field.name }}</h1>
-    <a class="btn btn-success mb-2" href="{% url 'create_reservation' pk=field.pk %}">Reservar</a>
-    <p>Descrição: {{ field.description }}</p>
-    <p>Facilidades: {{ field.facilities }}</p>
-    <p>Regras: {{ field.rules }}</p>
-    <p>Preço por hora: {{ field.hour_price }}</p>
-    <div class="address">
-      <h4>Endereço</h4>
-      <p>{{ field.address.address_one }}</p>
-      <p>{{ field.address.address_two }}</p>
-      <p>{{ field.address.district }}, {{ field.address.city }}, {{ field.address.state }}</p>
-    </div>
-    <div class="images">
-      {% for attachment in field.attachments.all %}
-        <div class="image">
-          <img style="height: 100px;" src="{{ attachment.image.url }}" alt="" />
+  <div class="container-fluid pt-2 row">
+    <div class="col-md-6">
+      <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img style="height: 500px;" class="d-block w-100" src="{{ field.main_image.url }}" alt="" />
+          </div>
+          {% for attachment in field.attachments.all %}
+            <div class="carousel-item">
+              <img style="height: 500px;" class="d-block w-100" src="{{ attachment.image.url }}" alt="" />
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bg-dark rounded" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+          <span class="carousel-control-next-icon bg-dark rounded" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
     </div>
-    {% if review_form %}
-      <form action="{% url 'create_review' pk=field.pk %}" method="post">
-        {% csrf_token %}
-        {{ review_form }}
-        <button>Enviar</button>
-      </form>
-    {% endif %}
+
+    <div class="col-md-6">
+      <h1>{{ field.name }}</h1>
+      <p>Descrição: {{ field.description }}</p>
+      <p>Facilidades: {{ field.facilities }}</p>
+      <p>Regras: {{ field.rules }}</p>
+      <p>Preço por hora: {{ field.hour_price }}</p>
+      <div class="address">
+        <h4>Endereço</h4>
+        <p>{{ field.address.address_one }}</p>
+        <p>{{ field.address.address_two }}</p>
+        <p>{{ field.address.district }}, {{ field.address.city }}, {{ field.address.state }}</p>
+      </div>
+      <a class="btn btn-success mb-2" href="{% url 'create_reservation' pk=field.pk %}">Reservar</a>
+
+      {% if review_form %}
+        <form action="{% url 'create_review' pk=field.pk %}" method="post">
+          {% csrf_token %}
+          {{ review_form }}
+          <button>Enviar</button>
+        </form>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}
