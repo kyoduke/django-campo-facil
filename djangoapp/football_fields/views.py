@@ -4,7 +4,9 @@ from django.http import HttpRequest
 from django.contrib import messages
 from .models import FootballField, Address
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
+from reservations.models import Reservation
+from reviews.forms import ReviewForm
+from reviews.models import Review
 import json
 
 # Create your views here.
@@ -76,14 +78,22 @@ def football_field_list(request: HttpRequest):
 
 @login_required(redirect_field_name='account_login')
 def football_field_detail(request:HttpRequest, pk:int):
+
     try:
         field = FootballField.objects.get(pk=pk)
     except FootballField.DoesNotExist:
         messages.warning(request, 'Este campo não existe mais.')
         return redirect(to='football_field_list')   
 
+    review_form = None
+    # adds a review form if the user have a reservation under this field 
+    # and the user havent created a review yet.
+    if Reservation.objects.filter(football_field=pk, user=request.user).exists() and not Review.objects.filter(football_field=pk, author=request.user, is_active=True).exists():
+        review_form = ReviewForm(initial={'football_field': pk})
+
     context = {
-        'field': field
+        'field': field,
+        'review_form': review_form
     }
 
     return render(request, 'football_fields/detail.html', context)

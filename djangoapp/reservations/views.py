@@ -42,6 +42,9 @@ def create_reservation(request: HttpRequest, pk:int):
     }
     return render(request, template_name=template_name, context=context)
 
+def detail_reservation(request: HttpRequest, pk:int):
+    context = {}
+    return render(request, 'reservations/detail_reservation.html', context=context)
 
 def user_reservations(request: HttpRequest):
     context = {}

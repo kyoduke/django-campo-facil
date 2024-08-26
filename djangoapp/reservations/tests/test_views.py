@@ -25,14 +25,14 @@ class TestReservationViews:
         
 
     def test_unauthenticaded_access(self, client):
-        url = reverse('new_reservation', args=[17])
+        url = reverse('create_reservation', args=[17])
         response = client.get(url)
         assert response.status_code == 302
         assert '/accounts/login' in response.url
 
     def test_authenticated_access(self, db, football_field, user, client: Client):
         logged = client.login(email=user.email, password='abc12345')
-        url = reverse('new_reservation', args=[football_field.pk])
+        url = reverse('create_reservation', args=[football_field.pk])
         response:HttpResponse = client.get(url)
         
         assert response.status_code == 200
@@ -43,7 +43,7 @@ class TestReservationViews:
         Tests if the form is being rendered with all input fields.
         """
         logged = client.login(email=user.email, password='abc12345')
-        url = reverse('new_reservation', args=[football_field.pk])
+        url = reverse('create_reservation', args=[football_field.pk])
         response: HttpResponse = client.get(url)
         html_content = response.content.decode('utf-8')
 
@@ -54,7 +54,7 @@ class TestReservationViews:
 
     def test_reservation_creation_via_post(self, db, user, football_field, client: Client):
         logged = client.login(email=user.email, password='abc12345')
-        url = reverse('new_reservation', args=[football_field.pk])
+        url = reverse('create_reservation', args=[football_field.pk])
         data = {
             'reservation_day': datetime.now().date(),
             'start_time': (datetime.now() + timedelta(hours=1)).time(),
@@ -69,7 +69,7 @@ class TestReservationViews:
         """
         Asserts the user is being redirected when there is no football field associated with given url arg
         """
-        url = reverse('new_reservation', args=[199])
+        url = reverse('create_reservation', args=[199])
         response: HttpResponse = client.get(url)
 
         assert response.status_code == 302
@@ -78,7 +78,7 @@ class TestReservationViews:
     def test_form_errors(self, logged_user, football_field, client: Client):
         """
         """
-        url = reverse('new_reservation', args=[football_field.pk])
+        url = reverse('create_reservation', args=[football_field.pk])
         data = {
             'reservation_day': datetime.now().date(),
             'start_time': (datetime.now() + timedelta(hours=-1)).time(),

@@ -12,7 +12,7 @@
   {% endfor %}
   <div class="container-fluid pt-2">
     <h1>{{ field.name }}</h1>
-    <a class="btn btn-success mb-2" href="/reservations/{{ field.pk }}">Reservar</a>
+    <a class="btn btn-success mb-2" href="{% url 'create_reservation' pk=field.pk %}">Reservar</a>
     <p>Descrição: {{ field.description }}</p>
     <p>Facilidades: {{ field.facilities }}</p>
     <p>Regras: {{ field.rules }}</p>
@@ -30,5 +30,12 @@
         </div>
       {% endfor %}
     </div>
+    {% if review_form %}
+      <form action="{% url 'create_review' pk=field.pk %}" method="post">
+        {% csrf_token %}
+        {{ review_form }}
+        <button>Enviar</button>
+      </form>
+    {% endif %}
   </div>
 {% endblock %}
