@@ -18,13 +18,13 @@
     <div class="row">
       <div class="col-6">
         <img class="mb-2"
-          style="width: 100px; height: 100px; border-radius: 50%;"
-          src="{% if user.profile_image %}
-            {{ user.profile_image.url }}
-          {% else %}
-            {% static 'img/default-profile.jpg' %}
-          {% endif %}"
-          alt="" />
+             style="width: 100px; height: 100px; border-radius: 50%;"
+             src="{% if user.profile_image %}
+                    {{ user.profile_image.url }}
+                  {% else %}
+                    {% static 'img/default-profile.jpg' %}
+                  {% endif %}"
+             alt="" />
       </div>
       <div class="col-6">
         <h1>{{ user.get_full_name }}</h1>

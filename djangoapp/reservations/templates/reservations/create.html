@@ -59,26 +59,26 @@
   <script>
     const date = document.getElementById('id_reservation_day')
     date.min = new Date().toISOString().split('T')[0]
-    
+
     function calculatePrice(e) {
       const start_time = document.getElementById('id_start_time')
       const end_time = document.getElementById('id_end_time')
-    
+
       filterTime(start_time)
       filterTime(end_time)
-    
+
       const total_value = document.getElementById('value')
       const hour_price = document.getElementById('hour_price').textContent
-    
+
       const [startHourH, startHourM] = start_time.value.split(':').map(Number)
       const [endHourH, endHourM] = end_time.value.split(':').map(Number)
-    
+
       const start = new Date(0, 0, 0, startHourH, startHourM)
       const end = new Date(0, 0, 0, endHourH, endHourM)
-    
+
       const durationInMilliseconds = end - start
       const durationInHours = durationInMilliseconds / (1000 * 60 * 60)
-    
+
       const totalPrice = durationInHours * hour_price
       if (totalPrice.toFixed(2) < 0) {
         total_value.textContent = 0
@@ -86,7 +86,7 @@
         total_value.textContent = totalPrice.toFixed(2) + ' R$'
       }
     }
-    
+
     function filterTime(e) {
       let [hour, mins] = e.value.split(':')
       e.value = `${hour}:00`

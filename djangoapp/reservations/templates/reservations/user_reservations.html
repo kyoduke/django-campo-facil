@@ -4,3 +4,36 @@
 {% block title %}
   Campo Fácil ::{% trans 'Reservations' %}
 {% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1>{% trans "Reservations" %}</h1>
+    {% for reservation in reservations %}
+      <div class="border border-black mt-3">
+        <div class="d-flex">
+          <p class="text-muted mx-1">{{ reservation.reservation_day }}</p>
+          <p class="mx-1">Inicio: {{ reservation.start_time }}</p>
+          <p class="mx-1">Fim: {{ reservation.end_time }}</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <h5 class="m-0 me-2"><a class="link-success" href="{% url "football_field_detail" pk=reservation.football_field.pk %}">{{ reservation.football_field }}</a></h5>
+          <p class="m-0 me-2
+                    {% if reservation.status == 'confirmed' %}
+                      text-warning-emphasis
+                    {% elif reservation.status == 'canceled' %}
+                      text-danger
+                    {% else %}
+                      text-success
+                    {% endif %}
+                   ">{{ reservation.status }}</p>
+          {% if reservation.status == 'confirmed' %}
+            <form action="{% url 'cancel_reservation' pk=reservation.pk %}" method="POST">
+              {% csrf_token %}
+              <button class="btn btn-danger">{% trans 'Cancel' %}</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -2,87 +2,87 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="32x32"  href="{% static "/img/favicon/bola-32png" %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static "/img/favicon/bola-96.png" %} ">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "./img/favicon/bola-16.png" %}">
-    <link rel="manifest" href="./img/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="./img/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    {% block head_content %}{% endblock head_content %}
-    <title>{% block page_title %}{% endblock page_title %}</title>
-    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
-    <script src="{% static "js/bootstrap.min.js" %}" defer ></script>
-</head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" sizes="32x32"  href="{% static "/img/favicon/bola-32png" %}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{% static "/img/favicon/bola-96.png" %} ">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static "./img/favicon/bola-16.png" %}">
+        <link rel="manifest" href="./img/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="./img/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        {% block head_content %}{% endblock head_content %}
+        <title>{% block page_title %}{% endblock page_title %}</title>
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+        <script src="{% static "js/bootstrap.min.js" %}" defer ></script>
+    </head>
+    <body class="bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+
             {% comment %} change to football_fields home page  {% endcomment %}
-            <a class="navbar-brand" 
-            {% if user.is_authenticated %}
-            href="{% url "football_field_list" %}"
-            {% else %}
-            href="{% url "account_login" %}"
-            {% endif %} 
-            >Campo Fácil</a>
-            
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "profile" %}">Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "user_reservations" %}">{% trans "Reservations" %}</a>
-                    </li>
-                    {% url 'mfa_index' as mfa_url %}
-                    {% if mfa_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
-                    </li>
-                    {% endif %}
-                    {% url 'usersessions_list' as usersessions_list_url %}
-                    {% if usersessions_list_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
-                    </li>
-                    {% endif %}
-                    {% url 'account_logout' as logout_url %}
-                    {% if logout_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ logout_url }}">{% trans "Sign Out" %}</a>
-                    </li>
-                    {% endif %}
-                    {% else %}
-                    {% url 'account_login' as login_url %}
-                    {% if login_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ login_url }}">{% trans "Sign In" %}</a>
-                    </li>
-                    {% endif %}
-                    {% url 'account_signup' as signup_url %}
-                    {% if signup_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ signup_url }}">{% trans "Sign Up" %}</a>
-                    </li>
-                    {% endif %}
-                    {% endif %}
-                </ul>                   
+                <a class="navbar-brand"
+                   {% if user.is_authenticated %}
+                       href="{% url "football_field_list" %}"
+                   {% else %}
+                       href="{% url "account_login" %}"
+                   {% endif %}
+                >Campo Fácil</a>
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "profile" %}">Perfil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "user_reservations" %}">{% trans "Reservations" %}</a>
+                            </li>
+                            {% url 'mfa_index' as mfa_url %}
+                            {% if mfa_url %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'usersessions_list' as usersessions_list_url %}
+                            {% if usersessions_list_url %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'account_logout' as logout_url %}
+                            {% if logout_url %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ logout_url }}">{% trans "Sign Out" %}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% url 'account_login' as login_url %}
+                            {% if login_url %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ login_url }}">{% trans "Sign In" %}</a>
+                                </li>
+                            {% endif %}
+                            {% url 'account_signup' as signup_url %}
+                            {% if signup_url %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ signup_url }}">{% trans "Sign Up" %}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+
+
             </div>
-            
-            
-            
-        </div>
-    </nav>
-    
-    {% block content %}{% endblock content %}
-</body>
+        </nav>
+
+        {% block content %}{% endblock content %}
+    </body>
 </html>
