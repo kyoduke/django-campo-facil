@@ -14,17 +14,17 @@ WORKDIR /djangoapp
 EXPOSE 8000
 
 RUN python -m venv /.venv
+RUN adduser --disabled-password --no-create-home duser
+
+RUN chown -R duser:duser /.venv
+RUN chmod -R +x /scripts
+USER duser
+
 RUN /.venv/bin/pip install --upgrade pip
 RUN /.venv/bin/pip install -r /djangoapp/requirements.txt
-RUN adduser --disabled-password --no-create-home duser
-RUN chown -R duser:duser /.venv
-#RUN chown -R duser:duser /djangoapp
 
-#RUN chmod -R 755 /djangoapp 
-RUN chmod -R +x /scripts
 
 ENV PATH="/scripts:/.venv/bin:$PATH"
 
-USER duser
 
 CMD [ "commands.sh" ]
