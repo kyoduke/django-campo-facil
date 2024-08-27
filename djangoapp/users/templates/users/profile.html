@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_title %}
   {% if user.first_name %}
     Perfil :: {{ user.first_name }}
@@ -14,19 +15,35 @@
     </div>
   {% endfor %}
   <div class="container d-flex flex-column align-items-center">
-    <h1>{{ user.get_full_name }}</h1>
-    <img class=""
-      style="width: 100px; height: 100px; border-radius: 50%;"
-      src="{% if user.profile_image %}
-        {{ user.profile_image.url }}
-      {% else %}
-        /media/img/default_profile_image.jpg
-      {% endif %}"
-      alt="" />
+    <div class="row">
+      <div class="col-6">
+        <img class="mb-2"
+          style="width: 100px; height: 100px; border-radius: 50%;"
+          src="{% if user.profile_image %}
+            {{ user.profile_image.url }}
+          {% else %}
+            {% static 'img/default-profile.jpg' %}
+          {% endif %}"
+          alt="" />
+      </div>
+      <div class="col-6">
+        <h1>{{ user.get_full_name }}</h1>
+      </div>
+    </div>
     <form action="/users/profile/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="form-group">{{ form.as_p }}</div>
-      <button class="btn btn-primary">Enviar</button>
+      <div class="form-group border p-2 mt-4">
+        {{ form.as_p }}
+        <button class="btn btn-primary">Atualizar</button>
+      </div>
     </form>
+    {% url 'account_email' as email_url %}
+    {% if email_url %}
+      <a href="{{ email_url }}">Mudar Email</a>
+    {% endif %}
+    {% url 'account_change_password' as change_password_url %}
+    {% if change_password_url %}
+      <a href="{{ change_password_url }}">Alterar Senha</a>
+    {% endif %}
   </div>
 {% endblock %}

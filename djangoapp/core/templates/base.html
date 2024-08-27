@@ -1,9 +1,3 @@
-{# Load the tag library #}
-{% load bootstrap5 %}
-
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -11,15 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="32x32"  href="{% static '/img/favicon/bola-32png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static '/img/favicon/bola-96.png' %} ">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static './img/favicon/bola-16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32"  href="{% static "/img/favicon/bola-32png" %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static "/img/favicon/bola-96.png" %} ">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "./img/favicon/bola-16.png" %}">
     <link rel="manifest" href="./img/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="./img/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     {% block head_content %}{% endblock head_content %}
     <title>{% block page_title %}{% endblock page_title %}</title>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <script src="{% static "js/bootstrap.min.js" %}" defer ></script>
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,7 +31,6 @@
             >Campo Fácil</a>
             
             
-            {% comment %} <strong>{% trans "Menu:" %}</strong> {% endcomment %}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,18 +43,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "user_reservations" %}">{% trans "Reservations" %}</a>
                     </li>
-                    {% url 'account_email' as email_url %}
-                    {% if email_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ email_url }}">Mudar Email</a>
-                    </li>
-                    {% endif %}
-                    {% url 'account_change_password' as change_password_url %}
-                    {% if change_password_url %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ change_password_url }}">{% trans "Change Password" %}</a>
-                    </li>
-                    {% endif %}
                     {% url 'mfa_index' as mfa_url %}
                     {% if mfa_url %}
                     <li class="nav-item">
