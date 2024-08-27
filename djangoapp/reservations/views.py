@@ -54,14 +54,11 @@ def user_reservations(request: HttpRequest):
     return render(request, 'reservations/user_reservations.html', context=context)
 
 def cancel_reservation(request: HttpRequest, pk: int):
-    print(request.method)
     if request.method == 'POST':
-        print('alo')
         try:
             reservation = Reservation.objects.get(pk=pk)
             reservation.status = 'canceled'
             reservation.save()
-            print(reservation)
         except Reservation.DoesNotExist:
             messages.warning(_('This reservation does not exists.'))
     return redirect(to='user_reservations')
