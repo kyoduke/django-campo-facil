@@ -6,6 +6,7 @@ from reservations.forms import ReservationForm
 from football_fields.models import FootballField
 from django.contrib import messages
 from .models import Reservation
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -18,7 +19,15 @@ def create_reservation(request: HttpRequest, pk:int):
         return redirect('football_field_list')
          
     if request.method == 'POST':
-        reservation = Reservation(user=request.user, football_field=field)
+        # data comes from post as str, we need to convert it to datetime if
+        # we want to make operations
+        start_time = datetime.strptime(request.POST.get('start_time'), '%H:%M')
+        end_time = datetime.strptime(request.POST.get('end_time'), '%H:%M')
+
+        diff_time = end_time - start_time
+        total_cost = (diff_time.seconds / 60 / 60) * field.hour_price
+
+        reservation = Reservation(user=request.user, football_field=field, total_cost=total_cost)
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
             form.save()
@@ -42,10 +51,12 @@ def create_reservation(request: HttpRequest, pk:int):
     }
     return render(request, template_name=template_name, context=context)
 
+@login_required(redirect_field_name='account_login')
 def detail_reservation(request: HttpRequest, pk:int):
     context = {}
     return render(request, 'reservations/detail_reservation.html', context=context)
 
+@login_required(redirect_field_name='account_login')
 def user_reservations(request: HttpRequest):
     reservations = Reservation.objects.filter(user=request.user)
     context = {
@@ -53,6 +64,7 @@ def user_reservations(request: HttpRequest):
     }
     return render(request, 'reservations/user_reservations.html', context=context)
 
+@login_required(redirect_field_name='account_login')
 def cancel_reservation(request: HttpRequest, pk: int):
     if request.method == 'POST':
         try:
