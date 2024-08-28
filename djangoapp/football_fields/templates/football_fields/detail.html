@@ -46,16 +46,37 @@
         <p>{{ field.address.address_one }}</p>
         <p>{{ field.address.address_two }}</p>
         <p>{{ field.address.district }}, {{ field.address.city }}, {{ field.address.state }}</p>
+
       </div>
       <a class="btn btn-success mb-2" href="{% url 'create_reservation' pk=field.pk %}">Reservar</a>
+      <hr>
+      <h4>Reviews</h4>
+      {% for review in reviews %}
+        <div class="reviews bg-dark border rounded p-1 text-white">
+          <p class="d-inline">{{ review.author }}:</p>
+          <div class="stars d-inline">
+            {% for i in '12345'|make_list %}
+              {% if i <= review.rating|floatformat:"0" %}
+                &#x2B50;
+              {% endif %}
+            {% endfor %}
+          </div>
 
-      {% if review_form %}
-        <form action="{% url 'create_review' pk=field.pk %}" method="post">
-          {% csrf_token %}
-          {{ review_form }}
-          <button>Enviar</button>
-        </form>
-      {% endif %}
+          <p>{{ review.comment }}</p>
+
+        </div>
+      {% endfor %}
+
+    {% if review_form %}
+      <hr class="mt-5">
+      <h4>Adicionar uma avaliação</h4>
+      <form action="{% url 'create_review' pk=field.pk %}" method="post">
+        {% csrf_token %}
+        {{ review_form }}
+        <button>Enviar</button>
+      </form>
+    {% endif %}
+
     </div>
   </div>
 {% endblock %}

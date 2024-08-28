@@ -81,6 +81,7 @@ def football_field_detail(request:HttpRequest, pk:int):
 
     try:
         field = FootballField.objects.get(pk=pk)
+        reviews = field.reviews.filter(is_active=True)
     except FootballField.DoesNotExist:
         messages.warning(request, 'Este campo não existe mais.')
         return redirect(to='football_field_list')   
@@ -88,12 +89,13 @@ def football_field_detail(request:HttpRequest, pk:int):
     review_form = None
     # adds a review form if the user have a reservation under this field 
     # and the user havent created a review yet.
-    if Reservation.objects.filter(football_field=pk, user=request.user).exists() and not Review.objects.filter(football_field=pk, author=request.user, is_active=True).exists():
+    if Reservation.objects.filter(football_field=pk, user=request.user, status='finished').exists() and not Review.objects.filter(football_field=pk, author=request.user, is_active=True).exists():
         review_form = ReviewForm(initial={'football_field': pk})
 
     context = {
         'field': field,
-        'review_form': review_form
+        'review_form': review_form,
+        'reviews': reviews
     }
 
     return render(request, 'football_fields/detail.html', context)
