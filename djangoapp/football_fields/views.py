@@ -92,10 +92,14 @@ def football_field_detail(request:HttpRequest, pk:int):
     if Reservation.objects.filter(football_field=pk, user=request.user, status='finished').exists() and not Review.objects.filter(football_field=pk, author=request.user, is_active=True).exists():
         review_form = ReviewForm(initial={'football_field': pk})
 
+    # mean of reviews
+    ratings = [review.rating for review in reviews]
+    ratings_mean = round(sum(ratings) / len(reviews),1)
     context = {
         'field': field,
         'review_form': review_form,
-        'reviews': reviews
+        'reviews': reviews,
+        'ratings_mean': ratings_mean
     }
 
     return render(request, 'football_fields/detail.html', context)
