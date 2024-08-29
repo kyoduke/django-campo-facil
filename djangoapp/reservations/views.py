@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
+from django.contrib import messages
+from django.core.mail import send_mail
 from reservations.forms import ReservationForm
 from football_fields.models import FootballField
-from django.contrib import messages
 from .models import Reservation
 from datetime import datetime, timedelta
 
@@ -30,8 +31,15 @@ def create_reservation(request: HttpRequest, pk:int):
         reservation = Reservation(user=request.user, football_field=field, total_cost=total_cost)
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
-            form.save()
+            data: Reservation = form.save()
             messages.success(request, _('Reservation created successfully.'))
+            send_mail(
+                subject=_('Your reservation was created.'), 
+                message=_(f'Your reservation for {data.football_field} at {data.reservation_day}, was created successfully. You will be charged {data.total_cost}.'),
+                from_email='shacayou@gmail.com',
+                recipient_list=[request.user.email],
+                fail_silently=False
+            )
             return redirect(to='football_field_detail', pk=pk)
         else: 
             print(form.errors)
