@@ -47,7 +47,8 @@ class Reservation(models.Model):
 
             # only runs if the object is being created
             if self.pk is None:
-                if self.reservation_day < datetime.datetime.now().date():
+                datetime_now = datetime.datetime.now()
+                if self.reservation_day < datetime_now.date() or self.start_time < datetime_now.time():
                     raise ValidationError({'reservation_day':_('Cannot create reservations in the past.')})
 
             # Check if the reservation date being saved conflicts

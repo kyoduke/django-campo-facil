@@ -57,8 +57,8 @@ class TestReservationViews:
         url = reverse('create_reservation', args=[football_field.pk])
         data = {
             'reservation_day': datetime.now().date(),
-            'start_time': (datetime.now() + timedelta(hours=1)).time(),
-            'end_time': (datetime.now() + timedelta(hours=2)).time()
+            'start_time': (datetime.now() + timedelta(hours=1)).time().strftime('%H:%M'),
+            'end_time': (datetime.now() + timedelta(hours=2)).time().strftime('%H:%M'),
         }
         response: HttpResponse = client.post(url, data=data)
         count = Reservation.objects.all().count()
@@ -81,10 +81,10 @@ class TestReservationViews:
         url = reverse('create_reservation', args=[football_field.pk])
         data = {
             'reservation_day': datetime.now().date(),
-            'start_time': (datetime.now() + timedelta(hours=-1)).time(),
-            'end_time': (datetime.now() + timedelta(hours=2)).time()
+            'start_time': (datetime.now() + timedelta(hours=-1)).time().strftime('%H:%M'),
+            'end_time': (datetime.now() + timedelta(hours=2)).time().strftime('%H:%M')
         }
-        response: HttpResponse = client.post(url)
-
+        response: HttpResponse = client.post(url, data=data)
+        print(data)
         assert response.status_code == 200 
         assert 'errorlist' in response.content.decode('utf-8')

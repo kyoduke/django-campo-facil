@@ -57,7 +57,8 @@ class TestReservationForm:
         assert form.is_valid() is True
 
         # Save form with user and football field manually added
-        reservation = form.save(commit=False)
+        reservation: Reservation = form.save(commit=False)
+        reservation.total_cost = 200
         reservation.save()
 
         # Ensure reservation was saved correctly

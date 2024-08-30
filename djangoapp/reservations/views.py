@@ -32,6 +32,7 @@ def create_reservation(request: HttpRequest, pk:int):
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
             data: Reservation = form.save()
+            print(data)
             messages.success(request, _('Reservation created successfully.'))
             send_mail(
                 subject=_('Your reservation was created.'), 

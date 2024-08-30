@@ -28,7 +28,8 @@ class TestReservationModel:
             reservation_day=(datetime.now() + timedelta(days=1)).date(),
             start_time=time(14, 0),
             end_time=time(16, 0),
-            status='confirmed'
+            status='confirmed',
+            total_cost = 250
         )
 
     def test_reservation_creation(self, reservation):
@@ -81,7 +82,8 @@ class TestReservationModel:
             reservation_day=date(3028, 1, 1),
             start_time=time(12,0), 
             end_time=time(13,0),
-            status='finished'
+            status='finished',
+            total_cost=250,
         )
         Reservation.objects.create(
             user=user,
@@ -89,6 +91,7 @@ class TestReservationModel:
             reservation_day=date(3024, 9, 1),
             start_time=time(15,0), 
             end_time=time(16,0),
+            total_cost=250,
             status='confirmed'
         )
         Reservation.objects.create(
@@ -97,6 +100,7 @@ class TestReservationModel:
             reservation_day=date(3024, 10, 1),
             start_time=time(18,0), 
             end_time=time(19,0),
+            total_cost=250,
             status='finished'
         )
         Reservation.objects.create(
@@ -105,6 +109,7 @@ class TestReservationModel:
             reservation_day=date(3029, 1, 1),
             start_time=time(15,0), 
             end_time=time(16,0),
+            total_cost=250,
             status='confirmed'
         )
 
