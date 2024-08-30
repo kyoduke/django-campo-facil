@@ -68,15 +68,15 @@
         </div>
       {% endfor %}
 
-    {% if review_form %}
-      <hr class="mt-5">
-      <h4>Adicionar uma avaliação</h4>
-      <form action="{% url 'create_review' pk=field.pk %}" method="post">
-        {% csrf_token %}
-        {{ review_form }}
-        <button>Enviar</button>
-      </form>
-    {% endif %}
+      {% if review_form %}
+        <hr class="mt-5">
+        <h4>Adicionar uma avaliação</h4>
+        <form action="{% url 'create_review' pk=field.pk %}" method="post">
+          {% csrf_token %}
+          {{ review_form }}
+          <button>Enviar</button>
+        </form>
+      {% endif %}
 
     </div>
   </div>
