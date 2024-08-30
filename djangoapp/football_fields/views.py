@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect
-from .forms import FootballFieldForm, AddressForm, AttachmentFormSet, FootballFieldFilterForm
 from django.http import HttpRequest
 from django.contrib import messages
-from .models import FootballField, Address
 from django.contrib.auth.decorators import login_required
+from football_fields.models import FootballField, Address
+from football_fields.forms import FootballFieldForm, AddressForm, AttachmentFormSet, FootballFieldFilterForm
 from reservations.models import Reservation
 from reviews.forms import ReviewForm
 from reviews.models import Review
 import json
 
-# Create your views here.
+# only admins can create fields
 @login_required(redirect_field_name='account_login')
 def create_football_field(request: HttpRequest):
+    if not request.user.is_staff:
+        return redirect(to='football_field_list')
     if request.method == 'POST':
         field_form = FootballFieldForm(request.POST, request.FILES)
         address_form = AddressForm(request.POST)
