@@ -1,5 +1,9 @@
+from typing import Any, Mapping
 from django import forms
-from .models import Reservation
+from django.core.files.base import File
+from django.db.models.base import Model
+from django.forms.utils import ErrorList
+from .models import Reservation, BlockedTimeSlot
 
 class ReservationForm(forms.ModelForm):
     class Meta:
