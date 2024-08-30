@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'football_fields.apps.FootballFieldsConfig',
     'reservations.apps.ReservationConfig',
     'reviews.apps.ReviewsConfig',
+    'reports.apps.ReportsConfig',
 
 
     'allauth',

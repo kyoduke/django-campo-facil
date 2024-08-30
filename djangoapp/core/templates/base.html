@@ -55,6 +55,14 @@
                                     <a class="nav-link" href="{{ usersessions_list_url }}">{% trans "Sessions" %}</a>
                                 </li>
                             {% endif %}
+                            {% if user.is_staff %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url "admin:index" %}">{% trans "Admin" %}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url "reports_index" %}">{% trans "Reports" %}</a>
+                                </li>
+                            {% endif %}
                             {% url 'account_logout' as logout_url %}
                             {% if logout_url %}
                                 <li class="nav-item">
