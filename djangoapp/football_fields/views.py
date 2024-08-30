@@ -96,7 +96,7 @@ def football_field_detail(request:HttpRequest, pk:int):
 
     # mean of reviews
     ratings = [review.rating for review in reviews]
-    ratings_mean = round(sum(ratings) / len(reviews),1)
+    ratings_mean = round(sum(ratings) / len(reviews),1) if not len(ratings) == 0 else 5
     context = {
         'field': field,
         'review_form': review_form,

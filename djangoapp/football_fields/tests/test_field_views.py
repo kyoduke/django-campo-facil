@@ -37,7 +37,7 @@ class TestFootballFieldViews():
 
     @pytest.fixture
     def football_field_fixture(self):
-        yield FootballField.objects.create(name='campinhola', hour_price=240, has_changing_room=True, has_field_lighting=True)
+        yield FootballField.objects.create(name='campinhola', hour_price=240, has_changing_room=True, has_field_lighting=True, main_image='random_url/')
 
     @pytest.fixture()
     def address_fixture(self, football_field_fixture):
@@ -46,7 +46,7 @@ class TestFootballFieldViews():
 
     @pytest.fixture
     def user_fixture(self):
-        yield User.objects.create_user(email='test_views@views.com', password='abc123')
+        yield User.objects.create_user(email='test_views@views.com', password='abc123', is_staff=True)
 
     @pytest.fixture
     def logged(self, client: Client, user_fixture):
