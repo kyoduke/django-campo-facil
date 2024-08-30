@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from football_fields.models import FootballField
 from django.core.exceptions import ValidationError
-import datetime 
 from django.utils.translation import gettext as _
+from django.db.models import Q
+from football_fields.models import FootballField
+import datetime 
 # Create your models here.
 
 User = get_user_model()
@@ -61,6 +62,35 @@ class Reservation(models.Model):
             if overlapping.exists():
                 raise ValidationError(_('This time slot overlaps with an existing reservation.'))
 
+            # Check if the time is blocked
+            blocked_slots = BlockedTimeSlot.objects.filter(
+                football_field=self.football_field,
+                block_day=self.reservation_day,
+                is_active=True
+            ).filter(
+                Q(start_time__lt=self.end_time) & Q(end_time__gt=self.start_time)
+            )
+
+            if blocked_slots.exists():
+                raise ValidationError(_('This date and time is currently blocked.'))
+
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+
+
+class BlockedTimeSlot(models.Model):
+    football_field = models.ForeignKey(FootballField, on_delete=models.CASCADE, related_name='blocked_slots')
+    block_day = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    reason = models.CharField(max_length=200, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def soft_delete(self):
+        self.is_active = False
 
     def save(self, *args, **kwargs):
         self.full_clean()
