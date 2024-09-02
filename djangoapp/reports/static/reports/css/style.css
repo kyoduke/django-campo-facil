@@ -1,0 +1,18 @@
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    width: 100%;
+}
+
+
+@media print {
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    table {
+        width: 100%;
+    }
+}

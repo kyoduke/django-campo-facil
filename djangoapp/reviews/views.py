@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from django.utils.translation import gettext as _
+from django.contrib.auth.decorators import login_required
 from reservations.models import Reservation
 from football_fields.models import FootballField
 from reviews.forms import ReviewForm
@@ -9,6 +10,7 @@ from reviews.models import Review
 
 
 
+@login_required(redirect_field_name='account_login')
 def create_review(request:HttpRequest, pk: int):
     # this view only handles post requests
     if not request.method == 'POST':

@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "reports/css/style.css" %}">
+</head>
+<body>
+<table id="table">
+    <tr>
+        <th>{% trans "Football Field" %}</th>
+        <th>{% trans "City" %}</th>
+        <th>{% trans "User" %}</th>
+        <th>{% trans "Reservation Date" %}</th>
+        <th>{% trans "Start Time" %}</th>
+        <th>{% trans "End Time" %}</th>
+        <th>{% trans "Total Paid" %}</th>
+    </tr>
+    {% for reservation in reservations %}
+    <tr>
+        <td>{{ reservation.football_field.name }}</td>
+        <td>{{ reservation.football_field.address.city }}</td>
+        <td>{{ reservation.user.email }}</td>
+        <td>{{ reservation.reservation_day }}</td>
+        <td>{{ reservation.start_time }}</td>
+        <td>{{ reservation.end_time }}</td>
+        <td>{{ reservation.total_cost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
