@@ -8,11 +8,21 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from reservations.models import Reservation
+from reports.forms import FootballFieldReportFilterForm
 
 
 @login_required(redirect_field_name='account_login')
 def index(request: HttpRequest):
-    return render(request, 'reports/index.html')
+    if request.GET:
+        form = FootballFieldReportFilterForm(request.GET)
+    else:
+        form = FootballFieldReportFilterForm()
+    
+    context = {
+        'form': form
+    }
+
+    return render(request, 'reports/index.html', context=context)
 
 
 @login_required(redirect_field_name='account_login')
@@ -38,7 +48,16 @@ def csv_report(request: HttpRequest):
 
 
 def pdf_report(request: HttpRequest):
+    form = FootballFieldReportFilterForm(request.GET or None)  
     reservations = Reservation.objects.all()
+    if form.is_valid():
+        from_date = form.cleaned_data['from_date'] or None
+        to_date = form.cleaned_data['to_date'] or None
+        if from_date:
+            reservations = reservations.filter(reservation_day__gt=form.cleaned_data['from_date']),
+        if to_date:
+           reservations = reservations.filter(reservation_day__lt=form.cleaned_data['to_date'])
+        print(reservations)
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=report.pdf'

@@ -9,5 +9,9 @@
     <div class="container-fluid">
         <h1>{% trans "Reports" %}</h1>
         <a href="{% url "csv_report" %}"></a>
+    <form action="{% url "pdf_report" %}" method="get">
+        {{ form }}
+        <button>Get PDF</button>
+    </form>
     </div>
 {% endblock content %}
