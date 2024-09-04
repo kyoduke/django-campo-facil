@@ -27,6 +27,16 @@ def index(request: HttpRequest):
 
 @login_required(redirect_field_name='account_login')
 def csv_report(request: HttpRequest):
+    form = FootballFieldReportFilterForm(request.GET or None)  
+    reservations = Reservation.objects.all()
+    if form.is_valid():
+        from_date = form.cleaned_data['from_date'] or None
+        to_date = form.cleaned_data['to_date'] or None
+        if from_date:
+            reservations = reservations.filter(reservation_day__gt=form.cleaned_data['from_date'])
+        if to_date:
+            reservations = reservations.filter(reservation_day__lt=form.cleaned_data['to_date'])
+
     response = HttpResponse(
         content_type='text/csv',
         headers={'Content-Disposition': 'attachment; filename="report.csv"'},
@@ -34,7 +44,7 @@ def csv_report(request: HttpRequest):
 
     writer = csv.writer(response)
     writer.writerow(['football field', 'city', 'user', 'date', 'start time', 'end time', 'paid'])
-    for reservation in Reservation.objects.all():
+    for reservation in reservations:
         writer.writerow([
             reservation.football_field.name,
             reservation.football_field.address.city,
@@ -47,6 +57,7 @@ def csv_report(request: HttpRequest):
     return response
 
 
+@login_required(redirect_field_name='account_login')
 def pdf_report(request: HttpRequest):
     form = FootballFieldReportFilterForm(request.GET or None)  
     reservations = Reservation.objects.all()
@@ -54,10 +65,9 @@ def pdf_report(request: HttpRequest):
         from_date = form.cleaned_data['from_date'] or None
         to_date = form.cleaned_data['to_date'] or None
         if from_date:
-            reservations = reservations.filter(reservation_day__gt=form.cleaned_data['from_date']),
+            reservations = reservations.filter(reservation_day__gte=form.cleaned_data['from_date'])
         if to_date:
-           reservations = reservations.filter(reservation_day__lt=form.cleaned_data['to_date'])
-        print(reservations)
+            reservations = reservations.filter(reservation_day__lte=form.cleaned_data['to_date'])
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=report.pdf'

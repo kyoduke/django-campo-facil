@@ -7,11 +7,35 @@
 
 {% block content %}
     <div class="container-fluid">
-        <h1>{% trans "Reports" %}</h1>
-        <a href="{% url "csv_report" %}"></a>
-    <form action="{% url "pdf_report" %}" method="get">
-        {{ form }}
-        <button>Get PDF</button>
-    </form>
+        <div class="row">
+            <h1 class="text-center my-5">{% trans "Reports" %}</h1>
+            <div class="col-md-6 mb-5">
+                <h2 class="text-center">PDF</h2>
+                <form action="{% url "pdf_report" %}" method="get">
+                    <div class='d-flex flex-column'>
+                        <label for="from_date"> {% trans "From" %}</label>
+                        <input type="date" name='from_date'>
+                        <label for="to_date"> {% trans "To" %}</label>
+                        <input type="date" name='to_date'>
+                        <button class="btn btn-dark mt-3">Download</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2 class="text-center">CSV</h2>
+                <form action="{% url "csv_report" %}" method="get">
+                    <div class='d-flex flex-column'>
+                        <label for="from_date"> {% trans "From" %}</label>
+                        <input type="date" name='from_date'>
+                        <label for="to_date"> {% trans "To" %}</label>
+                        <input type="date" name='to_date'>
+
+                        <button class="btn btn-dark mt-3">Download</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
     </div>
 {% endblock content %}
