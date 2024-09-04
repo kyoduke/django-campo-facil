@@ -13,6 +13,8 @@ from reports.forms import FootballFieldReportFilterForm
 
 @login_required(redirect_field_name='account_login')
 def index(request: HttpRequest):
+    if not request.user.is_staff:
+            return HttpResponse(_('Page not found'))
     if request.GET:
         form = FootballFieldReportFilterForm(request.GET)
     else:
@@ -27,6 +29,8 @@ def index(request: HttpRequest):
 
 @login_required(redirect_field_name='account_login')
 def csv_report(request: HttpRequest):
+    if not request.user.is_staff:
+            return HttpResponse(_('Page not found'))
     form = FootballFieldReportFilterForm(request.GET or None)  
     reservations = Reservation.objects.all()
     if form.is_valid():
@@ -59,6 +63,8 @@ def csv_report(request: HttpRequest):
 
 @login_required(redirect_field_name='account_login')
 def pdf_report(request: HttpRequest):
+    if not request.user.is_staff:
+        return HttpResponse(_('Page not found'))
     form = FootballFieldReportFilterForm(request.GET or None)  
     reservations = Reservation.objects.all()
     if form.is_valid():
@@ -75,12 +81,13 @@ def pdf_report(request: HttpRequest):
 
     c = canvas.Canvas(response, pagesize=letter)
     c.setTitle('Reservations Report')
-    headers = ['ID', _('Football Field'), _('City'), _('User'), _('Date'), _('Start Time'), _('End Time'), _('Cost'), _('Status')]
+    headers = ['ID', _('Football Field'), _('State'), _('City'), _('User'), _('Date'), _('Start Time'), _('End Time'), _('Cost'), _('Status')]
     data = [headers]
     for reservation in reservations:
         data.append([
             reservation.pk,
             reservation.football_field.name,
+            reservation.football_field.address.state,
             reservation.football_field.address.city,
             reservation.user.email,
             reservation.reservation_day,
