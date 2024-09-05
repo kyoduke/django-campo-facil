@@ -7,11 +7,14 @@ ENV PYTHONUNBUFFERED 1
 
 COPY djangoapp /djangoapp
 COPY scripts /scripts
+COPY certs/localhost.crt /etc/nginx/ssl/localhost.crt
+COPY certs/localhost.key /etc/nginx/ssl/localhost.key
+COPY default.conf /etc/nginx/conf.d/
 
 WORKDIR /djangoapp
 
 
-EXPOSE 8000
+EXPOSE 443
 
 RUN python -m venv /.venv
 RUN adduser --disabled-password --no-create-home duser
