@@ -84,7 +84,6 @@
     }).addTo(map)
 
     let data = {{ addresses|safe }}
-    console.log(data)
     data.forEach((address) => {
       console.log(address)
       if (address.latitude && address.longitude) {
