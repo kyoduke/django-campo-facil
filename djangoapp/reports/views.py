@@ -47,12 +47,16 @@ def csv_report(request: HttpRequest):
     )
 
     writer = csv.writer(response)
-    writer.writerow(['football field', 'city', 'user', 'date', 'start time', 'end time', 'paid'])
+    writer.writerow(['football_field', 'state', 'city', 'district', 'user', 'first_name', 'last_name', 'date', 'start_time', 'end_time', 'total_cost'])
     for reservation in reservations:
         writer.writerow([
             reservation.football_field.name,
+            reservation.football_field.address.state,
             reservation.football_field.address.city,
+            reservation.football_field.address.district,
             reservation.user.email,
+            reservation.user.first_name,
+            reservation.user.last_name,
             reservation.reservation_day,
             reservation.start_time,
             reservation.end_time,
@@ -81,18 +85,17 @@ def pdf_report(request: HttpRequest):
 
     c = canvas.Canvas(response, pagesize=letter)
     c.setTitle('Reservations Report')
-    headers = ['ID', _('Football Field'), _('State'), _('City'), _('User'), _('Date'), _('Start Time'), _('End Time'), _('Cost'), _('Status')]
+    headers = ['ID', _('Football Field'), _('State'), _('User'), _('Date'), _('Start Time'), _('End Time'), _('Cost'), _('Status')]
     data = [headers]
     for reservation in reservations:
         data.append([
             reservation.pk,
             reservation.football_field.name,
             reservation.football_field.address.state,
-            reservation.football_field.address.city,
             reservation.user.email,
             reservation.reservation_day,
-            reservation.start_time,
-            reservation.end_time,
+            str(reservation.start_time)[0:5],
+            str(reservation.end_time)[0:5],
             reservation.total_cost,
             reservation.status,
         ])
@@ -102,6 +105,7 @@ def pdf_report(request: HttpRequest):
         [
             ('BACKGROUND', (0,0), (-1,0), colors.grey),
             ('GRID', (0,0), (-1,-1), 1, colors.black),
+            ('FONTSIZE', (0,0), (-1,-1), 8),
         ]
     ))
     table.wrapOn(c, 600, 600)
