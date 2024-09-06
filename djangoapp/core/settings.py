@@ -55,6 +55,9 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    # MFA App:
+    'allauth.mfa',
+
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 ]
@@ -209,3 +212,7 @@ PHONENUMBER_DEFAULT_REGION = 'BR'
 
 # HTTPS
 CSRF_TRUSTED_ORIGINS = ['https://localhost']
+
+
+# ALLAUTH-MFA
+MFA_SUPPORTED_TYPES = ["totp", "webauthn", "recovery_codes"]
