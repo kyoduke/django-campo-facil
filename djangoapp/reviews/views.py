@@ -9,12 +9,11 @@ from reviews.forms import ReviewForm
 from reviews.models import Review
 
 
-
-@login_required(redirect_field_name='account_login')
-def create_review(request:HttpRequest, pk: int):
+@login_required(redirect_field_name="account_login")
+def create_review(request: HttpRequest, pk: int):
     # this view only handles post requests
-    if not request.method == 'POST':
-        return redirect(to='football_field_detail', pk=pk)
+    if not request.method == "POST":
+        return redirect(to="football_field_detail", pk=pk)
 
     football_field = None
     try:
@@ -25,11 +24,9 @@ def create_review(request:HttpRequest, pk: int):
         form = ReviewForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            messages.success(request, _('Thank you for posting a review.'))
-            return redirect('football_field_detail', pk=pk)
+            messages.success(request, _("Thank you for posting a review."))
+            return redirect("football_field_detail", pk=pk)
 
     except FootballField.DoesNotExist:
-        messages.warning(request, _('The field you requested doesnt exists anymore.'))
-        return redirect(to='football_field_list')
-
-    
+        messages.warning(request, _("The field you requested doesnt exists anymore."))
+        return redirect(to="football_field_list")

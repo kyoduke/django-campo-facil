@@ -1,4 +1,4 @@
-from django import forms 
+from django import forms
 
 
 class FootballFieldReportFilterForm(forms.Form):
@@ -8,7 +8,9 @@ class FootballFieldReportFilterForm(forms.Form):
     #     ('csv', 'CSV'),
     # ]
     # type = forms.ChoiceField(choices=TYPE_CHOICES)
-    from_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-    to_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-
-
+    from_date = forms.DateField(
+        widget=forms.widgets.DateInput(attrs={"type": "date"}), required=False
+    )
+    to_date = forms.DateField(
+        widget=forms.widgets.DateInput(attrs={"type": "date"}), required=False
+    )

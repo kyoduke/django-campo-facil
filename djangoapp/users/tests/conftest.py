@@ -4,4 +4,3 @@ from users.tests.factories import UserFactory
 
 
 register(UserFactory)
-
