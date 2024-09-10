@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% block page_title %}
   {% if user.first_name %}
@@ -14,7 +15,7 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   {% endfor %}
-  <div class="container d-flex flex-column align-items-center">
+  <div class="container d-flex flex-column align-items-center mt-5">
     <div class="row">
       <div class="col-6">
         <img class="mb-2"
@@ -34,16 +35,20 @@
       {% csrf_token %}
       <div class="form-group border p-2 mt-4">
         {{ form.as_p }}
-        <button class="btn btn-primary">Atualizar</button>
+        <button class="btn btn-primary">{% trans "Update" %}</button>
       </div>
     </form>
     {% url 'account_email' as email_url %}
     {% if email_url %}
-      <a href="{{ email_url }}">Mudar Email</a>
+      <a href="{{ email_url }}">{% trans "Email Settings" %}</a>
     {% endif %}
     {% url 'account_change_password' as change_password_url %}
     {% if change_password_url %}
-      <a href="{{ change_password_url }}">Alterar Senha</a>
+      <a href="{{ change_password_url }}">{% trans "Change Password" %}</a>
+    {% endif %}
+    {% url 'mfa_index' as mfa_url %}
+    {% if mfa_url %}
+      <a class="" href="{{ mfa_url }}">{% trans "Two-Factor Authentication" %}</a>
     {% endif %}
   </div>
 {% endblock %}
