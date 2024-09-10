@@ -103,12 +103,12 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql_psycopg2"),
-        "NAME": os.getenv("POSTGRES_DB", "campo_facil"),
-        "USER": os.getenv("POSTGRES_USER", "postgres"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "123"),
-        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
-        "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        "ENGINE": os.getenv("DB_ENGINE"),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -175,6 +175,13 @@ LOGIN_REDIRECT_URL = "football_field_list"
 ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
+        "APPS": [
+            {
+                "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+                "secret": os.getenv("GOOGLE_SECRET"),
+                "key": "",
+            }
+        ],
         "SCOPE": [
             "profile",
             "email",
