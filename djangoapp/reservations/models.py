@@ -61,9 +61,9 @@ class Reservation(models.Model):
             # only runs if the object is being created
             if self.pk is None:
                 datetime_now = datetime.datetime.now()
-                if (
-                    self.reservation_day < datetime_now.date()
-                    or self.start_time < datetime_now.time()
+                if self.reservation_day < datetime_now.date() or (
+                    self.reservation_day <= datetime_now.date()
+                    and self.start_time <= datetime_now.time()
                 ):
                     raise ValidationError(
                         {
