@@ -164,8 +164,12 @@ class TestReviewModel:
         assert review.football_field == reservation.football_field
 
     def test_multiple_reviews_different_fields(self, user):
-        field1 = FootballField.objects.create(name="Field 1", hour_price=100)
-        field2 = FootballField.objects.create(name="Field 2", hour_price=120)
+        field1 = FootballField.objects.create(
+            owner=user, name="Field 1", hour_price=100
+        )
+        field2 = FootballField.objects.create(
+            owner=user, name="Field 2", hour_price=120
+        )
 
         Review.objects.create(
             author=user, football_field=field1, rating=4, comment="Good field"

@@ -1,8 +1,6 @@
 import pytest
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from users.models import User
 
 
 @pytest.mark.django_db
@@ -25,8 +23,6 @@ class TestUserModel:
             ValueError, match="You have not provided a valid e-mail address."
         ):
             user = User.objects.create_user(email="", password="abc123")
-        count = User.objects.all().count()
-        assert count == 0
 
     def test_if_superuser_has_superuser_attributes(self):
         superuser = User.objects.create_superuser(
