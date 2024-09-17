@@ -37,8 +37,9 @@ class TestFootballFieldViews:
         yield data
 
     @pytest.fixture
-    def football_field_fixture(self):
+    def football_field_fixture(self, user_fixture):
         yield FootballField.objects.create(
+            owner=user_fixture,
             name="campinhola",
             hour_price=240,
             has_changing_room=True,

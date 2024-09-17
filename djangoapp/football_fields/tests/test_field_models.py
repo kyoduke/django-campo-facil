@@ -1,14 +1,23 @@
 import pytest
 from django.core.exceptions import ValidationError
 from football_fields.models import FootballField, Address, Attachment
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 @pytest.mark.django_db
 class TestModels:
 
     @pytest.fixture()
-    def football_field_fixture(self):
-        yield FootballField.objects.create(name="campinho", hour_price=200)
+    def user_fixture(self):
+        yield User.objects.create_user(email="test@test.com", password="test123")
+
+    @pytest.fixture()
+    def football_field_fixture(self, user_fixture):
+        yield FootballField.objects.create(
+            owner=user_fixture, name="campinho", hour_price=200
+        )
 
     @pytest.fixture()
     def address_fixture(self, football_field_fixture):
