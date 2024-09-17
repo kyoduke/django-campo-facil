@@ -1,24 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-# Create your models here.
-
-"""
-    O modelo deve ter:
-
-    nome
-    endereço
-    dimensão do campo
-
-    /////////////////////// fotos do campo
-
-    descrição
-    tipo de gramado
-    iluminação noturna = bool
-    vestiário = bool
-    preço por hora
-    facilidades = text field
-    regras de uso
-"""
+User = get_user_model()
 
 
 class FootballField(models.Model):
@@ -32,6 +15,8 @@ class FootballField(models.Model):
     main_image = models.ImageField(
         blank=True, null=True, upload_to="football_fields_images"
     )
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
     name = models.CharField(max_length=100, default="Campo")
     field_dimensions = models.CharField(max_length=9, blank=True, default="")
     description = models.TextField(max_length=1500, blank=True, default="")
@@ -41,6 +26,12 @@ class FootballField(models.Model):
     hour_price = models.PositiveSmallIntegerField(null=True)
     facilities = models.TextField(max_length=500, blank=True, default="")
     rules = models.TextField(max_length=1500, blank=True, default="")
+
+    is_active = models.BooleanField(default=True)
+
+    def soft_delete(self):
+        self.is_active = False
+        self.save()
 
     def save(self, *args, **kwargs):
         self.full_clean()

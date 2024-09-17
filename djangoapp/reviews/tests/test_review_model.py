@@ -17,8 +17,9 @@ def user():
 
 
 @pytest.fixture
-def football_field():
+def football_field(user):
     field = FootballField.objects.create(
+        owner=user,
         name="Test Field",
         field_dimensions="100x50",
         description="A test football field",

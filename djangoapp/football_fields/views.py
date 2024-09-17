@@ -21,7 +21,8 @@ def create_football_field(request: HttpRequest):
     if not request.user.is_staff:
         return redirect(to="football_field_list")
     if request.method == "POST":
-        field_form = FootballFieldForm(request.POST, request.FILES)
+        field = FootballField(owner=request.user)
+        field_form = FootballFieldForm(request.POST, request.FILES, instance=field)
         address_form = AddressForm(request.POST)
         attachment_form_set = AttachmentFormSet(data=request.POST, files=request.FILES)
         if (
