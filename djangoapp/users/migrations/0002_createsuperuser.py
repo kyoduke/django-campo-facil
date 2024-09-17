@@ -1,6 +1,5 @@
 import os
 from django.db import migrations
-from django.contrib.auth import get_user_model
 
 
 class Migration(migrations.Migration):
