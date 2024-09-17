@@ -17,8 +17,10 @@ class TestReservationModel:
         return User.objects.create_user(email="testuser@email.com", password="testpass")
 
     @pytest.fixture
-    def football_field(self):
-        return FootballField.objects.create(name="Test Field", hour_price=200)
+    def football_field(self, user):
+        return FootballField.objects.create(
+            owner=user, name="Test Field", hour_price=200
+        )
 
     @pytest.fixture
     def reservation(self, user, football_field):
