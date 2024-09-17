@@ -68,7 +68,7 @@ def create_football_field(request: HttpRequest):
 @login_required(redirect_field_name="account_login")
 def football_field_list(request: HttpRequest):
     form = FootballFieldFilterForm(request.GET or None)
-    fields = FootballField.objects.all()
+    fields = FootballField.objects.filter(is_active=True)
 
     if form.is_valid():
         if form.cleaned_data["city"]:
@@ -109,7 +109,7 @@ def football_field_list(request: HttpRequest):
 def football_field_detail(request: HttpRequest, pk: int):
 
     try:
-        field = FootballField.objects.get(pk=pk)
+        field = FootballField.objects.get(pk=pk, is_active=True)
         reviews = field.reviews.filter(is_active=True)
     except FootballField.DoesNotExist:
         messages.warning(request, "Este campo não existe mais.")

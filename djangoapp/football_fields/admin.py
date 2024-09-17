@@ -1,7 +1,6 @@
 from django.contrib import admin
 from football_fields.models import FootballField, Address, Attachment
-
-# Register your models here.
+from core.admin import soft_delete
 
 
 class AddressStackedInline(admin.StackedInline):
@@ -15,6 +14,7 @@ class AttachmentStackedInline(admin.StackedInline):
 @admin.register(FootballField)
 class FootBallFieldAdmin(admin.ModelAdmin):
     inlines = [AddressStackedInline, AttachmentStackedInline]
+    actions = [soft_delete]
 
 
 @admin.register(Attachment)

@@ -15,7 +15,7 @@ class FootballField(models.Model):
     main_image = models.ImageField(
         blank=True, null=True, upload_to="football_fields_images"
     )
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     name = models.CharField(max_length=100, default="Campo")
     field_dimensions = models.CharField(max_length=9, blank=True, default="")
