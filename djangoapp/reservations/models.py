@@ -80,6 +80,7 @@ class Reservation(models.Model):
                 reservation_day=self.reservation_day,
                 start_time__lt=self.end_time,
                 end_time__gt=self.start_time,
+                status='confirmed',
             ).exclude(pk=self.pk)
 
             if overlapping.exists():
