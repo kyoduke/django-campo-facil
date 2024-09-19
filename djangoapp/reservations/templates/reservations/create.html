@@ -24,7 +24,7 @@
       </div>
     </div>
     <h1 class="text-center my-5">Reserva</h1>
-    <form action="{% url 'create_reservation' pk=field.pk %}" method="post">
+    <form action="{% url 'create_reservation' pk=field.pk %}" method="post" onsubmit="return confirmCreate();">
       <div class="px-lg-5">
         <div class="px-md-2 px-lg-5 col col-sm-8 col-md-6 col-lg-4 mx-auto">
           <div class="d-flex flex-column justify-content-between">
@@ -56,6 +56,9 @@
     </form>
   </div>
   <script>
+    function confirmCreate() {
+      return confirm(`Confirmar reserva?`)
+    }
     const date = document.getElementById('id_reservation_day')
     date.min = new Date().toISOString().split('T')[0]
 
