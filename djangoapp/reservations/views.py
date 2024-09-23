@@ -7,7 +7,8 @@ from django.core.mail import send_mail
 from reservations.forms import ReservationForm
 from football_fields.models import FootballField
 from .models import Reservation
-from datetime import datetime, timedelta
+from datetime import datetime
+from django.conf import settings
 
 # Create your views here.
 
@@ -40,10 +41,19 @@ def create_reservation(request: HttpRequest, pk: int):
             send_mail(
                 subject=_("Your reservation was created."),
                 message=_(
-                    f"Your reservation for {data.football_field} at {data.reservation_day}, was created successfully. You will be charged {data.total_cost}."
+                    f"Your reservation for the football field {data.football_field} on {data.reservation_day} has been successfully created. The total cost for your reservation is {data.total_cost}. Thank you for choosing our service!"
                 ),
-                from_email="shacayou@gmail.com",
+                from_email=getattr(settings, "EMAIL_HOST_USER", None),
                 recipient_list=[request.user.email],
+                fail_silently=False,
+            )
+            send_mail(
+                subject=_("Your field have a new reservation."),
+                message=_(
+                    f"There is a new reservation for {reservation.football_field.name}.\nThe reservation is set to {reservation.reservation_day} from {reservation.start_time} to {reservation.end_time}.\nReservation Details\nUser: {reservation.user.get_full_name()}\nEmail: {reservation.user.email}\nTotal Cost: R$ {reservation.total_cost}"
+                ),
+                from_email=getattr(settings, "EMAIL_HOST_USER", None),
+                recipient_list=[reservation.football_field.owner.email],
                 fail_silently=False,
             )
             return redirect(to="football_field_detail", pk=pk)
@@ -81,6 +91,13 @@ def cancel_reservation(request: HttpRequest, pk: int):
             reservation = Reservation.objects.get(pk=pk)
             reservation.status = "canceled"
             reservation.save()
+            send_mail(
+                subject=_("Reservation have been canceled."),
+                message=f"A reservation have been canceled for {reservation.football_field.name} on {reservation.reservation_day}.",
+                from_email=getattr(settings, "EMAIL_HOST_USER", None),
+                recipient_list=[reservation.football_field.owner],
+                fail_silently=False,
+            )
         except Reservation.DoesNotExist:
             messages.warning(_("This reservation does not exists."))
     return redirect(to="user_reservations")
