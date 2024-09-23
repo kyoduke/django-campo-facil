@@ -69,7 +69,7 @@ def detail_reservation(request: HttpRequest, pk: int):
 
 @login_required(redirect_field_name="account_login")
 def user_reservations(request: HttpRequest):
-    reservations = Reservation.objects.filter(user=request.user)
+    reservations = Reservation.objects.filter(user=request.user, is_active=True)
     context = {"reservations": reservations}
     return render(request, "reservations/user_reservations.html", context=context)
 
@@ -80,6 +80,18 @@ def cancel_reservation(request: HttpRequest, pk: int):
         try:
             reservation = Reservation.objects.get(pk=pk)
             reservation.status = "canceled"
+            reservation.save()
+        except Reservation.DoesNotExist:
+            messages.warning(_("This reservation does not exists."))
+    return redirect(to="user_reservations")
+
+
+@login_required(redirect_field_name="account_login")
+def remove_reservation(request: HttpRequest, pk: int):
+    if request.method == "POST":
+        try:
+            reservation = Reservation.objects.get(pk=pk)
+            reservation.is_active = False
             reservation.save()
         except Reservation.DoesNotExist:
             messages.warning(_("This reservation does not exists."))

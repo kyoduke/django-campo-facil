@@ -30,9 +30,15 @@
           {% if reservation.status == 'confirmed' %}
             <form action="{% url 'cancel_reservation' pk=reservation.pk %}" method="POST" onsubmit="return confirmCancellation();">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger">{% trans 'Cancel' %}</button>
+              <button type="submit" class="btn btn-warning">{% trans 'Cancel' %}</button>
             </form>
           {% endif %}
+          {% if not reservation.status == 'confirmed' %}
+        <form action="{% url 'remove_reservation' pk=reservation.pk %}" method="POST" onsubmit="return confirmRemove();">
+          {% csrf_token %}
+          <button class="btn btn-danger" type="submit" >X</button>
+        </form>
+        {% endif %}
         </div>
       </div>
     {% endfor %}
@@ -41,6 +47,10 @@
   <script>
     function confirmCancellation() {
       return confirm("Tem certeza que deseja cancelar a reserva?")
+    }
+
+    function confirmRemove() {
+      return confirm('Tem certeza que deseja apagar?')
     }
   </script>
 {% endblock %}
