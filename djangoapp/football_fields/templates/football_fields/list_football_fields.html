@@ -17,10 +17,7 @@
     </div>
   {% endfor %}
   <div class="container-fluid ">
-    {% if user.is_staff %}
-      <h4 class="mt-2">{% trans "Do you want to add another field?" %} <span><a class="btn btn-success" href="{% url "create_football_field" %}">{% trans "new football field" %}</a></span></h4>
 
-    {% endif %}
     <div class="d-flex flex-column flex-md-row mt-5">
       <div class="col-12 col-md-4">
         <h3 class="text-center">Filtro de pesquisa</h3>
@@ -55,9 +52,12 @@
       <div class="ps-md-2 col-12 col-md-8">
         <h1 class="text-center">Lista de Campos</h1>
         <div class="border rounded border-2 border-primary" id="map" style="height: 300px;"></div>
+    {% if user.is_staff %}
+      <h4 class="mt-2">{% trans "Want to add another field? " %}<span><a class="btn btn-success" href="{% url "create_football_field" %}">{% trans "Create Field" %}</a></span></h4>
+    {% endif %}
         <div class="row">
           {% for field in fields %}
-            <div class="col-md-4 col-sm-6 d-flex align-items-stretch mt-4">
+            <div class="col-md-4 col-sm-6 d-flex align-items-stretch mt-2">
               <div class="card">
                 {% if field.main_image %}
                   <img class="card-img-top" src="{{ field.main_image.url }}" alt="" />
