@@ -13,6 +13,7 @@ class CustomUserAdmin(UserAdmin):
         "last_name",
         "is_staff",
         "is_active",
+        "is_superuser",
         "profile_image",
         "phone_number",
     )
@@ -22,6 +23,7 @@ class CustomUserAdmin(UserAdmin):
         "last_name",
         "is_staff",
         "is_active",
+        "is_superuser",
         "profile_image",
         "phone_number",
     )
@@ -41,7 +43,15 @@ class CustomUserAdmin(UserAdmin):
         ),
         (
             "Permissions",
-            {"fields": ("is_staff", "is_active", "groups", "user_permissions")},
+            {
+                "fields": (
+                    "is_staff",
+                    "is_active",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
         ),
     )
     add_fieldsets = (
