@@ -99,7 +99,8 @@ def cancel_reservation(request: HttpRequest, pk: int):
                 fail_silently=False,
             )
         except Reservation.DoesNotExist:
-            messages.warning(_("This reservation does not exists."))
+            messages.warning(request, _("This reservation does not exists."))
+        messages.success(request, _("Reservation canceled successfully."))
     return redirect(to="user_reservations")
 
 
@@ -111,5 +112,5 @@ def remove_reservation(request: HttpRequest, pk: int):
             reservation.is_active = False
             reservation.save()
         except Reservation.DoesNotExist:
-            messages.warning(_("This reservation does not exists."))
+            messages.warning(request, _("This reservation does not exists."))
     return redirect(to="user_reservations")
