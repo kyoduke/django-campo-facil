@@ -17,13 +17,13 @@
     {% for reservation in reservations %}
       <div class="border border-black mt-3">
         <div class="d-flex">
+          <h5 class="m-0 me-2"><a class="link-success" href="{% url "football_field_detail" pk=reservation.football_field.pk %}">{{ reservation.football_field }}</a></h5>
           <p class="text-muted mx-1">{{ reservation.reservation_day }}</p>
           <p class="mx-1">Inicio: {{ reservation.start_time }}</p>
           <p class="mx-1">Fim: {{ reservation.end_time }}</p>
         </div>
         <p>Valor total: R$ {{ reservation.total_cost }}</p>
         <div class="d-flex align-items-center">
-          <h5 class="m-0 me-2"><a class="link-success" href="{% url "football_field_detail" pk=reservation.football_field.pk %}">{{ reservation.football_field }}</a></h5>
           <p class="m-0 me-2
                     {% if reservation.status == 'confirmed' %}
                       text-warning-emphasis
