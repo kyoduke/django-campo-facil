@@ -12,9 +12,7 @@ class FootballField(models.Model):
         ("HIB", "Híbrido"),
     ]
 
-    main_image = models.ImageField(
-        blank=True, null=True, upload_to="football_fields_images"
-    )
+    main_image = models.ImageField(upload_to="football_fields_images")
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     name = models.CharField(max_length=100, default="Campo")
