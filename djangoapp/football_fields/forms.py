@@ -3,7 +3,6 @@ from football_fields.models import FootballField, Address, Attachment
 
 
 class FootballFieldForm(forms.ModelForm):
-    main_image = forms.ImageField()
     description = forms.CharField(widget=forms.widgets.Textarea(attrs={"rows": "5"}))
     hour_price = forms.IntegerField(min_value=0)
     facilities = forms.CharField(widget=forms.widgets.Textarea(attrs={"rows": "3"}))
@@ -13,31 +12,51 @@ class FootballFieldForm(forms.ModelForm):
 
     class Meta:
         model = FootballField
-        fields = [
-            "main_image",
-            "name",
-            "field_dimensions",
-            "description",
-            "grass_type",
-            "has_field_lighting",
-            "has_changing_room",
-            "hour_price",
-            "facilities",
-            "rules",
-        ]
+        exclude = ("owner",)
+
+    def __init__(self, *args, **kwargs):
+        super(FootballFieldForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(visible.field.widget, forms.CheckboxInput):
+                visible.field.widget.attrs["class"] = "form-check-input"
+            elif isinstance(visible.field.widget, forms.Select):
+                visible.field.widget.attrs["class"] = "form-select"
+            else:
+                visible.field.widget.attrs["class"] = "form-control"
 
 
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = "__all__"
         exclude = ("football_field",)
+
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(visible.field.widget, forms.CheckboxInput):
+                visible.field.widget.attrs["class"] = "form-check-input"
+            elif isinstance(visible.field.widget, forms.Select):
+                visible.field.widget.attrs["class"] = "form-select"
+            else:
+                visible.field.widget.attrs["class"] = "form-control"
+
+
+class AttachmentForm(forms.ModelForm):
+    class Meta:
+        model = Attachment
+        exclude = ("football_field",)
+
+    def __init__(self, *args, **kwargs):
+        super(AttachmentForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(visible.field.widget, forms.FileInput):
+                visible.field.widget.attrs["class"] = "form-control"
 
 
 AttachmentFormSet = forms.inlineformset_factory(
     FootballField,
     Attachment,
-    form=forms.models.ModelForm,
+    form=AttachmentForm,
     fields=["image"],
     extra=3,
     can_delete=True,
@@ -77,5 +96,7 @@ class FootballFieldFilterForm(forms.Form):
         for visible in self.visible_fields():
             if isinstance(visible.field.widget, forms.CheckboxInput):
                 visible.field.widget.attrs["class"] = "form-check-input"
+            elif isinstance(visible.field.widget, forms.Select):
+                visible.field.widget.attrs["class"] = "form-select"
             else:
                 visible.field.widget.attrs["class"] = "form-control"
