@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-{% for message in messages %}
+  {% for message in messages %}
     <div class="alert alert-{{ message.tags }} d-flex justify-content-between" role="alert">
       {{ message|safe }}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -40,11 +40,11 @@
             </form>
           {% endif %}
           {% if not reservation.status == 'confirmed' %}
-        <form action="{% url 'remove_reservation' pk=reservation.pk %}" method="POST" onsubmit="return confirmRemove();">
-          {% csrf_token %}
-          <button class="btn btn-danger" type="submit" >X</button>
-        </form>
-        {% endif %}
+            <form action="{% url 'remove_reservation' pk=reservation.pk %}" method="POST" onsubmit="return confirmRemove();">
+              {% csrf_token %}
+              <button class="btn btn-danger" type="submit" >X</button>
+            </form>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
