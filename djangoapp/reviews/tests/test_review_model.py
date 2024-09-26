@@ -3,54 +3,11 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db import models
-from football_fields.models import FootballField, Address
+from football_fields.models import FootballField
 from reservations.models import Reservation
 from reviews.models import Review
-import datetime
 
 User = get_user_model()
-
-
-@pytest.fixture
-def user():
-    return User.objects.create_user(email="testuser@test.com", password="12345")
-
-
-@pytest.fixture
-def football_field(user):
-    field = FootballField.objects.create(
-        owner=user,
-        name="Test Field",
-        field_dimensions="100x50",
-        description="A test football field",
-        grass_type="SIN",
-        has_field_lighting=True,
-        has_changing_room=True,
-        hour_price=100,
-        facilities="Parking available",
-        rules="No smoking",
-    )
-    Address.objects.create(
-        football_field=field,
-        address_one="123 Test St",
-        state="SP",
-        city="São Paulo",
-        district="Test District",
-        cep_code="12345-678",
-    )
-    return field
-
-
-@pytest.fixture
-def reservation(user, football_field):
-    return Reservation.objects.create(
-        user=user,
-        football_field=football_field,
-        reservation_day=timezone.now().date() + datetime.timedelta(days=1),
-        start_time=datetime.time(10, 0),
-        end_time=datetime.time(11, 0),
-        total_cost=100,
-    )
 
 
 @pytest.fixture
@@ -165,10 +122,10 @@ class TestReviewModel:
 
     def test_multiple_reviews_different_fields(self, user):
         field1 = FootballField.objects.create(
-            owner=user, name="Field 1", hour_price=100
+            owner=user, name="Field 1", hour_price=100, main_image="test.jpg"
         )
         field2 = FootballField.objects.create(
-            owner=user, name="Field 2", hour_price=120
+            owner=user, name="Field 2", hour_price=120, main_image="test.jpg"
         )
 
         Review.objects.create(

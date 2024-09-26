@@ -13,20 +13,8 @@ User = get_user_model()
 class TestReservationViews:
 
     @pytest.fixture
-    def football_field(self, db, user):
-        return FootballField.objects.create(
-            owner=user, name="campo do jacá", hour_price=200
-        )
-
-    @pytest.fixture
-    def user(self, db):
-        return User.objects.create_user(
-            email="robertjacksnon@gmail.com", password="abc12345"
-        )
-
-    @pytest.fixture
     def logged_user(self, db, user, client: Client):
-        return client.login(email=user.email, password="abc12345")
+        return client.login(email=user.email, password="testpass")
 
     def test_unauthenticaded_access(self, client):
         url = reverse("create_reservation", args=[17])
@@ -35,18 +23,17 @@ class TestReservationViews:
         assert "/accounts/login" in response.url
 
     def test_authenticated_access(self, db, football_field, user, client: Client):
-        logged = client.login(email=user.email, password="abc12345")
+        logged = client.login(email=user.email, password="testpass")
         url = reverse("create_reservation", args=[football_field.pk])
         response: HttpResponse = client.get(url)
 
         assert response.status_code == 200
         assert logged is True
 
-    def test_form_rendered(self, db, user, football_field, client: Client):
+    def test_form_rendered(self, db, user, football_field, client: Client, logged_user):
         """
         Tests if the form is being rendered with all input fields.
         """
-        logged = client.login(email=user.email, password="abc12345")
         url = reverse("create_reservation", args=[football_field.pk])
         response: HttpResponse = client.get(url)
         html_content = response.content.decode("utf-8")
@@ -57,9 +44,8 @@ class TestReservationViews:
         assert '<input type="time" name="end_time"' in html_content
 
     def test_reservation_creation_via_post(
-        self, db, user, football_field, client: Client
+        self, db, user, football_field, client: Client, logged_user
     ):
-        logged = client.login(email=user.email, password="abc12345")
         url = reverse("create_reservation", args=[football_field.pk])
         data = {
             "reservation_day": datetime.now().date(),

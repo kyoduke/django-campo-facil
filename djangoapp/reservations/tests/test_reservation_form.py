@@ -2,24 +2,10 @@ import pytest
 from datetime import time, date, timedelta, datetime
 from reservations.forms import ReservationForm
 from reservations.models import Reservation
-from django.contrib.auth import get_user_model
-from football_fields.models import FootballField
-
-User = get_user_model()
 
 
 @pytest.mark.django_db
 class TestReservationForm:
-
-    @pytest.fixture
-    def user(self):
-        return User.objects.create_user(email="testuser@email.com", password="testpass")
-
-    @pytest.fixture
-    def football_field(self, user):
-        return FootballField.objects.create(
-            owner=user, name="Test Field", hour_price=200
-        )
 
     @pytest.fixture
     def form_data(self):

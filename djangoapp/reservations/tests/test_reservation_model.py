@@ -12,28 +12,6 @@ User = get_user_model()
 @pytest.mark.django_db
 class TestReservationModel:
 
-    @pytest.fixture
-    def user(self):
-        return User.objects.create_user(email="testuser@email.com", password="testpass")
-
-    @pytest.fixture
-    def football_field(self, user):
-        return FootballField.objects.create(
-            owner=user, name="Test Field", hour_price=200
-        )
-
-    @pytest.fixture
-    def reservation(self, user, football_field):
-        return Reservation.objects.create(
-            user=user,
-            football_field=football_field,
-            reservation_day=(datetime.now() + timedelta(days=1)).date(),
-            start_time=time(14, 0),
-            end_time=time(16, 0),
-            status="confirmed",
-            total_cost=250,
-        )
-
     def test_reservation_creation(self, reservation):
         assert reservation.id is not None
         assert reservation.status == "confirmed"

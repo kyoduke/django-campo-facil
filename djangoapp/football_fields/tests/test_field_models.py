@@ -16,7 +16,7 @@ class TestModels:
     @pytest.fixture()
     def football_field_fixture(self, user_fixture):
         yield FootballField.objects.create(
-            owner=user_fixture, name="campinho", hour_price=200
+            owner=user_fixture, name="campinho", hour_price=200, main_image="test.jpg"
         )
 
     @pytest.fixture()
