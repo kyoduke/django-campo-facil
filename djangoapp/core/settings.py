@@ -212,3 +212,7 @@ CSRF_TRUSTED_ORIGINS = ["https://localhost"]
 
 # ALLAUTH-MFA
 MFA_SUPPORTED_TYPES = ["totp", "webauthn", "recovery_codes"]
+
+# CELERY CONFIG
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND")
