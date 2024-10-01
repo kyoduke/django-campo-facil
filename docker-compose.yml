@@ -13,9 +13,9 @@ services:
       - ./dotenv_files/.env
     depends_on:
       - psql
-      - redis
+      - rabbit
     networks:
-      - nginx-network
+      - shared-network
   psql:
     container_name: psql
     image: postgres:13-alpine
@@ -24,7 +24,7 @@ services:
     env_file:
       - ./dotenv_files/.env
     networks:
-      - nginx-network
+      - shared-network
   nginx:
     image: nginx:latest
     ports:
@@ -35,7 +35,7 @@ services:
     depends_on:
       - djangoapp
     networks:
-      - nginx-network
+      - shared-network
   celery:
     build: .
     command: celery -A core worker -l INFO
@@ -45,15 +45,24 @@ services:
       - ./djangoapp:/djangoapp
     depends_on:
       - djangoapp
-      - redis
+      - rabbit
     networks:
-      - nginx-network
-  redis:
-    image: "redis:alpine"
+      - shared-network
+  rabbit:
+    image: rabbitmq:4.0-management
+    container_name: rabbit
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
-      - nginx-network
+      - shared-network
 networks:
-  nginx-network:
+  shared-network:
     driver: bridge
 volumes:
   db_data:
