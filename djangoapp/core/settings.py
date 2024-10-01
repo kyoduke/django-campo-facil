@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_celery_results",
 ]
 
 MIDDLEWARE = [
@@ -215,3 +216,5 @@ MFA_SUPPORTED_TYPES = ["totp", "webauthn", "recovery_codes"]
 
 # CELERY CONFIG
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND")
+CELERY_CACHE_BACKEND = os.environ.get("CELERY_CACHE")
