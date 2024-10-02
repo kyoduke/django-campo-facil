@@ -2,45 +2,45 @@
 {% load i18n %}
 
 {% block style %}
-<style>
-    #content {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #e9ecef;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    h1 {
-        color: #007bff;
-        font-weight: bold;
-        text-align: center;
-    }
-    h3 {
-        color: #343a40;
-        text-align: center;
-        margin-top: 20px;
-    }
-    p {
-        color: #495057;
-        text-align: center;
-    }
-</style>
+    <style>
+        #content {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #007bff;
+            font-weight: bold;
+            text-align: center;
+        }
+        h3 {
+            color: #343a40;
+            text-align: center;
+            margin-top: 20px;
+        }
+        p {
+            color: #495057;
+            text-align: center;
+        }
+    </style>
 {% endblock style %}
 
 {% block content %}
-<div id="content" class="container">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h1>Campo Fácil</h1>
+    <div id="content" class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>Campo Fácil</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3>{% trans "Your reservation for the football field <strong>{{data.football_field}}</strong> on <strong>{{data.reservation_day}}</strong> has been successfully created." %}</h3>
+                <p>The total cost for your reservation is R$<strong>{{data.total_cost}}</strong>.</p>
+                <p>Thank you for choosing our service!</p>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <h3>{% trans "Your reservation for the football field <strong>{{data.football_field}}</strong> on <strong>{{data.reservation_day}}</strong> has been successfully created." %}</h3>
-            <p>The total cost for your reservation is R$<strong>{{data.total_cost}}</strong>.</p>
-            <p>Thank you for choosing our service!</p>
-        </div>
-    </div>
-</div>
 {% endblock content %}

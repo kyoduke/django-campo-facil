@@ -106,7 +106,7 @@ def cancel_reservation(request: HttpRequest, pk: int):
                 subject=_("Reservation have been canceled."),
                 message=f"A reservation have been canceled for {reservation.football_field.name} on {reservation.reservation_day}.",
                 recipient_list=[reservation.football_field.owner.email],
-            )
+            )  # TODO make it html content instead of only text
         except Reservation.DoesNotExist:
             messages.warning(request, _("This reservation does not exists."))
         messages.success(request, _("Reservation canceled successfully."))
