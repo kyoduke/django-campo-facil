@@ -11,6 +11,7 @@ def send_mail_task(
     subject,
     message,
     recipient_list,
+    html_message=None,
 ):
     logger.info("Sent email")
     send_mail(
@@ -19,4 +20,5 @@ def send_mail_task(
         from_email=getattr(settings, "EMAIL_HOST_USER", None),
         recipient_list=recipient_list,
         fail_silently=False,
+        html_message=html_message,
     )

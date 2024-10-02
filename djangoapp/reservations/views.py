@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from reservations.forms import ReservationForm
 from football_fields.models import FootballField
 from .models import Reservation
@@ -22,6 +23,10 @@ def create_reservation(request: HttpRequest, pk: int):
         messages.warning(request, _("Este campo não existe mais."))
         return redirect("football_field_list")
 
+    # TEST
+
+    # ENDTEST
+
     if request.method == "POST":
         # data comes from post as str, we need to convert it to datetime if
         # we want to make operations
@@ -37,14 +42,22 @@ def create_reservation(request: HttpRequest, pk: int):
         form = ReservationForm(request.POST, instance=reservation)
         if form.is_valid():
             data: Reservation = form.save()
-            print(data)
             messages.success(request, _("Reservation created successfully."))
+            user_html_content = render_to_string(
+                template_name="reservations/emails/user_create_reservation.html",
+                context={"data": data},
+            )
             send_mail_task.delay(
                 subject=_("Your reservation was created."),
                 message=_(
                     f"Your reservation for the football field {data.football_field} on {data.reservation_day} has been successfully created. The total cost for your reservation is {data.total_cost}. Thank you for choosing our service!"
                 ),
                 recipient_list=[request.user.email],
+                html_message=user_html_content,
+            )
+            owner_html_content = render_to_string(
+                template_name="reservations/emails/owner_create_reservation.html",
+                context={"data": data},
             )
             send_mail_task.delay(
                 subject=_("Your field have a new reservation."),
@@ -52,6 +65,7 @@ def create_reservation(request: HttpRequest, pk: int):
                     f"There is a new reservation for {reservation.football_field.name}.\nThe reservation is set to {reservation.reservation_day} from {reservation.start_time} to {reservation.end_time}.\nReservation Details\nUser: {reservation.user.get_full_name()}\nEmail: {reservation.user.email}\nTotal Cost: R$ {reservation.total_cost}"
                 ),
                 recipient_list=[reservation.football_field.owner.email],
+                html_message=owner_html_content,
             )
             return redirect(to="football_field_detail", pk=pk)
         else:
