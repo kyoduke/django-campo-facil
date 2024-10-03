@@ -13,4 +13,5 @@ PyJWT==2.8.0
 pytest-factoryboy==2.7.0
 django-celery-results==2.5.1
 python-dotenv==1.0.1
-django-allauth==0.63.6
+django-allauth==65.0.2
+fido2==1.1.3

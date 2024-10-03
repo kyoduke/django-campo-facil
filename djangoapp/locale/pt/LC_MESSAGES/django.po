@@ -1,0 +1,309 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-02 15:29-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: djangoapp/core/admin.py:5
+msgid "Mark selected as inactive"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:45
+#: djangoapp/reservations/templates/reservations/detail_reservation.html:3
+#: djangoapp/reservations/templates/reservations/user_reservations.html:5
+#: djangoapp/reservations/templates/reservations/user_reservations.html:16
+#: djangoapp/templates/allauth/layouts/base.html:56
+msgid "Reservations"
+msgstr "Reservas"
+
+#: djangoapp/core/templates/base.html:50
+#: djangoapp/templates/allauth/layouts/base.html:61
+msgid "Sessions"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:55
+#: djangoapp/templates/allauth/layouts/base.html:66
+msgid "Admin"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:58
+#: djangoapp/reports/templates/reports/index.html:4
+#: djangoapp/reports/templates/reports/index.html:11
+#: djangoapp/templates/allauth/layouts/base.html:69
+msgid "Reports"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:64
+#: djangoapp/templates/allauth/layouts/base.html:75
+msgid "Sign Out"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:71
+#: djangoapp/templates/account/login.html:5
+#: djangoapp/templates/account/login.html:10
+#: djangoapp/templates/account/login.html:32
+#: djangoapp/templates/allauth/layouts/base.html:82
+msgid "Sign In"
+msgstr ""
+
+#: djangoapp/core/templates/base.html:77
+#: djangoapp/templates/allauth/layouts/base.html:88
+msgid "Sign Up"
+msgstr ""
+
+#: djangoapp/football_fields/templates/football_fields/list_football_fields.html:56
+msgid "Want to add another field? "
+msgstr ""
+
+#: djangoapp/football_fields/templates/football_fields/list_football_fields.html:56
+msgid "Create Field"
+msgstr ""
+
+#: djangoapp/reports/templates/reports/index.html:16
+#: djangoapp/reports/templates/reports/index.html:28
+msgid "From"
+msgstr ""
+
+#: djangoapp/reports/templates/reports/index.html:18
+#: djangoapp/reports/templates/reports/index.html:30
+msgid "To"
+msgstr ""
+
+#: djangoapp/reports/views.py:17 djangoapp/reports/views.py:31
+#: djangoapp/reports/views.py:89
+msgid "Page not found"
+msgstr ""
+
+#: djangoapp/reports/views.py:111
+msgid "Football Field"
+msgstr ""
+
+#: djangoapp/reports/views.py:112
+msgid "State"
+msgstr ""
+
+#: djangoapp/reports/views.py:113
+msgid "User"
+msgstr ""
+
+#: djangoapp/reports/views.py:114
+msgid "Date"
+msgstr ""
+
+#: djangoapp/reports/views.py:115
+msgid "Start Time"
+msgstr ""
+
+#: djangoapp/reports/views.py:116
+msgid "End Time"
+msgstr ""
+
+#: djangoapp/reports/views.py:117
+msgid "Cost"
+msgstr ""
+
+#: djangoapp/reports/views.py:118
+msgid "Status"
+msgstr ""
+
+#: djangoapp/reservations/models.py:59
+msgid "End time must be after start time."
+msgstr ""
+
+#: djangoapp/reservations/models.py:72
+msgid "Cannot create reservations in the past."
+msgstr ""
+
+#: djangoapp/reservations/models.py:89
+msgid "This time slot overlaps with an existing reservation."
+msgstr ""
+
+#: djangoapp/reservations/models.py:100
+msgid "This date and time is currently blocked."
+msgstr ""
+
+#: djangoapp/reservations/templates/reservations/emails/owner_create_reservation.html:40
+msgid ""
+"Your football field <strong>{{data.football_field}}</strong> has a new "
+"reservation on <strong>{{data.reservation_day}}</strong>."
+msgstr ""
+
+#: djangoapp/reservations/templates/reservations/emails/owner_create_reservation.html:41
+msgid ""
+"The total cost for the reservation is R$<strong>{{data.total_cost}}</strong>."
+msgstr ""
+
+#: djangoapp/reservations/templates/reservations/emails/user_create_reservation.html:40
+msgid ""
+"Your reservation for the football field <strong>{{data.football_field}}</"
+"strong> on <strong>{{data.reservation_day}}</strong> has been successfully "
+"created."
+msgstr ""
+
+#: djangoapp/reservations/templates/reservations/user_reservations.html:39
+msgid "Cancel"
+msgstr ""
+
+#: djangoapp/reservations/views.py:23
+msgid "Este campo não existe mais."
+msgstr ""
+
+#: djangoapp/reservations/views.py:45
+msgid "Reservation created successfully."
+msgstr ""
+
+#: djangoapp/reservations/views.py:51
+msgid "Your reservation was created."
+msgstr ""
+
+#: djangoapp/reservations/views.py:53
+#, python-brace-format
+msgid ""
+"Your reservation for the football field {data.football_field} on {data."
+"reservation_day} has been successfully created. The total cost for your "
+"reservation is {data.total_cost}. Thank you for choosing our service!"
+msgstr ""
+
+#: djangoapp/reservations/views.py:63
+msgid "Your field have a new reservation."
+msgstr ""
+
+#: djangoapp/reservations/views.py:65
+msgid ""
+"There is a new reservation for {reservation.football_field.name}.\n"
+"The reservation is set to {reservation.reservation_day} from {reservation."
+"start_time} to {reservation.end_time}.\n"
+"Reservation Details\n"
+"User: {reservation.user.get_full_name()}\n"
+"Email: {reservation.user.email}\n"
+"Total Cost: R$ {reservation.total_cost}"
+msgstr ""
+
+#: djangoapp/reservations/views.py:106
+msgid "Reservation have been canceled."
+msgstr ""
+
+#: djangoapp/reservations/views.py:111 djangoapp/reservations/views.py:124
+msgid "This reservation does not exists."
+msgstr ""
+
+#: djangoapp/reservations/views.py:112
+msgid "Reservation canceled successfully."
+msgstr ""
+
+#: djangoapp/reviews/models.py:14
+msgid "1 Star"
+msgstr ""
+
+#: djangoapp/reviews/models.py:15
+msgid "2 Stars"
+msgstr ""
+
+#: djangoapp/reviews/models.py:16
+msgid "3 Stars"
+msgstr ""
+
+#: djangoapp/reviews/models.py:17
+msgid "4 Stars"
+msgstr ""
+
+#: djangoapp/reviews/models.py:18
+msgid "5 Stars"
+msgstr ""
+
+#: djangoapp/reviews/models.py:44
+msgid "You have already submitted a review for this football field."
+msgstr ""
+
+#: djangoapp/reviews/views.py:27
+msgid "Thank you for posting a review."
+msgstr ""
+
+#: djangoapp/reviews/views.py:31
+msgid "The field you requested doesnt exists anymore."
+msgstr ""
+
+#: djangoapp/templates/account/email.html:4
+#: djangoapp/templates/account/email.html:9
+msgid "Email Addresses"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:13
+msgid "The following email addresses are associated with your account:"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:26
+msgid "Verified"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:30
+msgid "Unverified"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:35
+msgid "Primary"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:44
+msgid "Make Primary"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:45
+msgid "Re-send Verification"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:46
+msgid "Remove"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:54
+msgid "Add Email Address"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:65
+msgid "Add Email"
+msgstr ""
+
+#: djangoapp/templates/account/email.html:75
+msgid "Do you really want to remove the selected email address?"
+msgstr ""
+
+#: djangoapp/templates/account/login.html:20
+#, python-format
+msgid ""
+"If you have not created an account yet, then please %(link)ssign "
+"up%(end_link)s first."
+msgstr ""
+
+#: djangoapp/templates/account/login.html:42
+msgid "Mail me a sign-in code"
+msgstr ""
+
+#: djangoapp/users/templates/users/profile.html:38
+msgid "Update"
+msgstr ""
+
+#: djangoapp/users/templates/users/profile.html:43
+msgid "Email Settings"
+msgstr ""
+
+#: djangoapp/users/templates/users/profile.html:47
+msgid "Change Password"
+msgstr ""
+
+#: djangoapp/users/templates/users/profile.html:51
+msgid "Two-Factor Authentication"
+msgstr ""

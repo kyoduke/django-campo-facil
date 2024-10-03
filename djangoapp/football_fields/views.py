@@ -139,3 +139,8 @@ def football_field_detail(request: HttpRequest, pk: int):
     }
 
     return render(request, "football_fields/detail.html", context)
+
+
+@login_required(redirect_field_name="account_login")
+def edit_football_field(request: HttpRequest, pk: int):  # TODO page to edit field
+    pass

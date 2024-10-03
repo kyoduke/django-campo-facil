@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 import os
 
 
@@ -161,6 +162,13 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LANGUAGES = [
+    ("en", _("English")),
+    ("pt-br", _("Brazilian Portuguese")),
+    ("es", _("Spanish")),
+]
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 
 # CUSTOM USER MODEL
