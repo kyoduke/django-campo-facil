@@ -1,6 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from datetime import time, timedelta, date, datetime
 from django.contrib.auth import get_user_model
 from reservations.models import Reservation
@@ -21,7 +22,9 @@ class TestReservationModel:
         )
 
     def test_start_time_after_end_time(self, user, football_field):
-        with pytest.raises(ValidationError, match="End time must be after start time."):
+        with pytest.raises(
+            ValidationError, match=_("End time must be after start time.")
+        ):
             Reservation.objects.create(
                 user=user,
                 football_field=football_field,
@@ -33,7 +36,7 @@ class TestReservationModel:
     def test_reservation_in_past(self, user, football_field):
         past_date = date.today() - timedelta(days=1)
         with pytest.raises(
-            ValidationError, match="Cannot create reservations in the past."
+            ValidationError, match=_("Cannot create reservations in the past.")
         ):
             Reservation.objects.create(
                 user=user,
@@ -46,7 +49,7 @@ class TestReservationModel:
     def test_overlapping_reservations(self, user, football_field, reservation):
         with pytest.raises(
             ValidationError,
-            match="This time slot overlaps with an existing reservation.",
+            match=_("This time slot overlaps with an existing reservation."),
         ):
             Reservation.objects.create(
                 user=user,
