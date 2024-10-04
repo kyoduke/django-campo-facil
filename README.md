@@ -1,6 +1,6 @@
 # Django Campo Fácil
 
-Este projeto foi desenvolvido como atividade em meu estágio de desenvolvedor. 
+This project was develop as a task for my developer internship.
 
 ## To run this project
 
